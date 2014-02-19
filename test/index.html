@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Testing pickers</title>
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="test.css">
+
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="../dist/picker.js"></script>
+
+</head>
+<body>
+
+	<h1>Test #1 - Simple Picker</h1>
+
+	<p>This is supposed to just open a modal window with a simple picker</p>
+	<p><button id="button">Open Picker</button></p>
+
+	<hr/>
+	<h2>Usage:</h2>
+	<pre>
+$("#button").click(function() {
+	$.picker("regular", "my-picker", {});
+});</pre>
+	
+	<script>
+
+		$("#button").click(function() {
+			$.picker("regular", "my-picker", {});
+		});
+
+	</script>
+
+</body>
+</html>
