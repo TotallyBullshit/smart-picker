@@ -1,0 +1,28 @@
+{
+  "name": "picker",
+  "version": "0.0.0",
+  "authors": [
+    "Arthur Camara <arthurcamara@gmail.com>"
+  ],
+  "description": "Set of pickers for gapminder projects",
+  "main": "dist/pickers.min.js",
+  "keywords": [
+    "Picker",
+    "GeoPicker",
+    "jQuery",
+    "plugin"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.gapminder.org",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.0"
+  }
+}
