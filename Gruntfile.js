@@ -14,10 +14,10 @@ module.exports = function (grunt) {
 
     var gruntConfig = {
         //simple watch task
-        // watch: {
-        //     files: [src_folder+'styles/pickers.css', src_folder+'scripts/pickers.js'],
-        //         tasks: ['build']
-        // },
+        watch: {
+             files: [src_folder+'scripts/picker.js'],
+             tasks: ['build']
+        },
         clean: {
           build: {
             src: [dist_folder]
@@ -31,7 +31,7 @@ module.exports = function (grunt) {
                 imagesDir:  src_folder+'images',
                 javascriptsDir:  src_folder+'scripts',
                 fontsDir:  src_folder+'styles/fonts',
-                importPath:  src_folder+'bower_components',
+                importPath:  'bower_components',
                 httpImagesPath: '/images',
                 httpGeneratedImagesPath: '/images/generated',
                 httpFontsPath: '/styles/fonts',
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
 		uglify: {
 			dist: {
 				files: [
-					{src: dist_folder+'scripts/pickers.js', dest: dist_folder+'pickers.min.js'},
+					{src: dist_folder+'picker.js', dest: dist_folder+'picker.min.js'},
 				]
 			}
 		},
@@ -71,8 +71,8 @@ module.exports = function (grunt) {
         cssmin: {
             dist: {
                 files: {
-                    'dist/styles/pickers.min.css': [
-                        src_folder+'styles/pickers.css'
+                    'dist/styles/picker.min.css': [
+                        src_folder+'styles/picker.css'
                     ]
                 },
             }
@@ -89,17 +89,21 @@ module.exports = function (grunt) {
                         src: [
                             '*.{ico,png,txt}',
                             'images/{,*/}*.{gif,jpg,jpeg,png,svg,webp}',
-                            'styles/pickers.css',
+                            'styles/picker.css',
                             'styles/fonts/{,*/}*.*'
                         ]
-                    },
+                    }
+                ]
+            },
+            picker: {
+                files: [
                     {
                         expand: true,
                         dot: true,
-                        cwd: src_folder+'scripts',
+                        cwd: src_folder+'scripts/',
                         dest: dist_folder,
                         src: [
-                            'pickers.js'
+                            'picker.js'
                         ]
                     }
                 ]
@@ -113,7 +117,8 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean',
         'compass',
-        'copy',
+        'copy:dist',
+        'copy:picker',
         'imagemin',
         'uglify',
         'cssmin'
@@ -123,8 +128,8 @@ module.exports = function (grunt) {
         'build'
     ]);
 
-    //  grunt.registerTask('watch', [
-    //     'build',
-    //     'watch'
-    // ]);
+    grunt.registerTask('live', [
+        'build',
+        'watch'
+    ]);
 };
