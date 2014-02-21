@@ -20,50 +20,64 @@
 				picker_overlay_class: 'picker-overlay',
 				picker_draggable_class: 'picker-draggable',
 				picker_static_class: 'picker-static',
+				picker_footer_class: 'picker-footer',
 				close_button_class: 'picker-close-button',
+				ok_button_class: 'picker-ok-button',
+				content_class: 'picker-content',
 				//types of pickers
-				possible_types: ['regular', 'geo'],
+				possible_types: ['regular', 'regularList', 'geo'],
 				default_type: 'regular',
 				//possible transitions
-                possible_transitions: ['none', 'fade', 'slide', 'slideUp'],
-                default_transition: 'none',
+                possible_transitions: ['no-transition', 'fade', 'slide', 'slideUp', 'slideRight', 'slideLeft'],
+                default_transition: 'slide',
 				//useful html attributes
                 picker_close_attr: 'data-picker-close',
-                picker_okay_attr: 'data-picker-ok',
+                picker_ok_attr: 'data-picker-ok',
+                selectable_attr: 'data-picker-selectable',
+                value_attr: 'data-picker-value',
+                //basezindex:
+                zindex: 9000
 			}; 
 
 			/* default options */
 			var defaults = {
 				//position
-				top: 'auto',
+				top: '50px',
 				left: 'auto',
 				bottom: 'auto',
 				right: 'auto',
 
 				//sizes
-				width: '95%',
+				width: 'auto',
 				height: 'auto',
 
-				//visual properties
+				//visual propert
 				extraClass: [],
-				transition: 'slide',
+				transition: settings.default_transition,
 				//container may only be changed if static = true
 				container: 'body',
 
 				//optional features
 				closeButton: false,
-                closeEsc: true,
+				confirmButton: false,
                 clickOverlay: true, //only makes sense with modal true
                 modal: true,
                 draggable: false,
                 static: false,
+                allowDuplicates: false,
 
                 //events
-                beforeOpen: null,
-            	afterOpen: null,
-             	beforeClose: null,
-             	afterClose: null,
-             	onChange: null
+                beforeOpen: undefined,
+            	afterOpen: undefined,
+             	beforeClose: undefined,
+             	afterClose: undefined,
+             	onInteraction: undefined,
+             	onSet: undefined,
+
+             	//personalized content
+       			contentData: undefined,
+       			contentTemplate: undefined,
+       			contentScript: undefined,
 			};
 
 			//options
@@ -74,22 +88,28 @@
 			var events = {
 				events: {}, //holds each event, identified by name
 				bind: function(name, func) {
+
 					if($.type(this.events[name]) !== 'array') {
 						this.events[name] = [];
 					}
-					else {
-						if($.isFunction(func)) {
-							this.events[name].push(func);
-						} else {
-							throw_msg("Can't bind '"+func+"' to event '"+name+"'. It must be a function!");
-						}
+					if($.isFunction(func)) {
+						this.events[name].push(func);
+					} else {
+						throw_msg("Can't bind '"+func+"' to event '"+name+"'. It must be a function!");
 					}
 				},
-				trigger: function(name) {
+				trigger: function(name, args) {
+
+					if($.type(this.events[name]) === 'undefined') return;
+
 					for (var i = 0, size=this.events[name].length; i < size; i++) {
 						var f = this.events[name][i];
 						if($.isFunction(f)) {
-							f();
+							if($.type(args) === "undefined") {
+								f();
+							} else {
+								f(args);
+							}
 						} else {
 							throw_msg("Can't execute '"+func+"' on event '"+name+"'. It must be a function!");
 						}
@@ -99,16 +119,27 @@
 
 			//================= BIND EACH USER DEFINED EVENT =================
 
-			events.bind('beforeOpen', options.beforeOpen);
-			events.bind('afterOpen', options.afterOpen);
-			events.bind('beforeClose', options.beforeClose);
-			events.bind('afterClose', options.afterClose);
-			events.bind('onChange', options.onChange);
+			var possible_events = [
+				'beforeOpen',
+				'afterOpen',
+				'beforeClose',
+				'afterClose',
+				'onInteraction',
+				'onSet'
+			];
+
+			for (var i = possible_events.length - 1; i >= 0; i--) {
+				var evt = possible_events[i];
+				if($.type(options[evt]) === "function") {
+					events.bind(evt, options[evt]);
+				}
+			};
 
 			//================= BIND PLUGIN EVENTS =================
 
-			events.bind('beforeOpen', bind_keys);
-			events.bind('afterClose', unbind_keys);
+			events.bind('beforeOpen', bind_actions);
+			events.bind('afterClose', unbind_actions);
+			events.bind('afterClose', remove_picker);
 
 			//================= CHECKING VALID PROPERTIES ====================
 
@@ -132,15 +163,156 @@
 
 			var elements = create_elements();
 
+			//============== TEMPLATING TOOL (PICKER SPECIFIC) ===============
+
+			var template = {
+
+				//parse a template
+				parse: function(string, data) {
+					var parsed = _.template(string, data);
+					return ($.type(parsed) === "function") ? parsed() : parsed;
+				},
+
+				/*
+				 * build specific content for each picker
+				 * - type is a string (e.g: "geo" )
+				 * - data is an object (e.g: { title: "Picker"} )
+				 * - template is an underscore template
+				 * - apply is a function to be executed after the template
+				 *   is parsed
+				 */
+				build: function(type, data, template, postRender) {
+					data = data || {};
+					var typeTemplate, typePostRender;
+
+					switch(type) {
+						case "geo":
+							data = _.extend({
+								title: "Pick your country",
+								options: [
+									{value:"sv", name: "Sverige"},
+									{value:"br", name: "Brazil"},
+									{value:"us", name: "United States"}
+								]
+							}, data);
+
+							typeTemplate = this.templates['select_one'];
+							typePostRender = this.functions['select_one'];
+							
+							break;
+
+						case "regularList":
+							data = _.extend({
+								title: "Pick one",
+								options: [
+									{value:"", name: "Choose...", selected: true},
+									{value:"1", name: "One"},
+									{value:"2", name: "Two"},
+									{value:"3", name: "Three"}
+								]
+							}, data);
+
+							typeTemplate = this.templates['one_from_list'];
+							typePostRender = this.functions['one_from_list'];
+
+							break;
+
+						case "regular":
+						default:
+							data = _.extend({
+								title: "Pick one",
+								options: [
+									{value:"", name: "Choose...", selected: true},
+									{value:"1", name: "One"},
+									{value:"2", name: "Two"},
+									{value:"3", name: "Three"}
+								]
+							}, data);
+
+							typeTemplate = this.templates['select_one'];
+							typePostRender = this.functions['select_one'];
+
+							break;
+					}
+					//only use the type ones if user hasnt selected another
+					if($.type(template) !== "string") {
+						template = typeTemplate;
+					}
+					if($.type(postRender) !== "function") {
+						postRender = typePostRender;
+					}
+					return {
+						markup: this.parse(template, data),
+						postRender: postRender
+					}
+				},
+				templates: {
+					select_one: "<h4><%= title %></h4>"+
+							   "<div>"+
+								   "<select class='form-control' id='picker_selector'>"+
+								   "<% _.each(options, function(opt) { %>"+
+								   		"<option value='<%= opt.value %>' "+
+								   		"<%= (opt.selected) ? 'selected' : '' %>"+
+								   		"><%= opt.name %></option>"+
+								   	"<% }); %>"+
+								   "</select>"+
+							   "</div>",
+					one_from_list: "<h4 align='center'><%= title %></h4>"+
+							   "<div>"+
+								   "<div id='picker_selector' class='btn-group-vertical' "+settings.selectable_attr+">"+
+								   "<% _.each(options, function(opt) { %>"+
+								   		"<button "+settings.value_attr+"='<%= opt.value %>' class='btn btn-default btn-block "+
+								   		"<%= (opt.selected) ? 'active' : '' %>"+
+								   		"'><%= opt.name %></button>"+
+								   	"<% }); %>"+
+								   "</div>"+
+							   "</div>"
+
+				},
+				functions: {
+					select_one: function(content) {
+							content.find("#picker_selector").on("change",
+							function() {
+								var value = content.find("#picker_selector").val();
+								events.trigger("onInteraction", value);
+							});
+						},
+					one_from_list: function(content) {
+						var list = content.find("#picker_selector");
+						var buttons = list.find("button");
+						buttons.each(function() {
+							var button = $(this);
+							button.on("click", function() {
+								buttons.removeClass('active');
+								button.addClass('active');
+								var value = button.attr(settings.value_attr);
+								list.attr(settings.selectable_attr, value);
+								events.trigger("onInteraction", value);
+							});
+						});
+					}
+				}
+
+			}
+
 			//========= ADD SPECIFIC CONTECT ACCORDING TO THE TYPE ===========
 
-			//pickerGeo
+			var new_content = template.build(type, options.contentData, options.contentTemplate, options.contentScript);
+
+			//at this point, the picker has a content placeholder
+			elements.content.html(new_content.markup);
+			//execute the postRender function to this content
+			if($.type(new_content.postRender) === "function") {
+				new_content.postRender(elements.content);
+			}
+
+			//pickerGeo			
 			//pickerAge
 			//pickerLanguage
 
 			//============= OPEN THE PICKER (MAKE IT VISIBLE) ================
             
-			open_picker(elements);
+			open_picker();
 
 
 
@@ -164,9 +336,12 @@
 			function create_elements() {
 
 				//remove if it already exists
-				$("#" + id).remove();
+				if(!options.allowDuplicates) {
+					$("#" + id).remove();
+				}
 
 				var elements = {};
+				var element, picker, overlay;
 
 				/* add necessary html markup */
 				var element = $("<div id='" + id + "'></div>").appendTo(options.container);
@@ -176,10 +351,11 @@
 					var picker = $("<div class='" + settings.picker_class + "'></div>").appendTo(element);
 					var overlay = $("<div class='" + settings.picker_overlay_class + "'></div>").appendTo(element);
 
-					/* make sure the modal has a fixed wrapper */
+
+					/* make sure some CSS rules are met */
 		            element.css({
 		                "position": "fixed",
-		                "z-index": 9998,
+		                "z-index": settings.zindex,
 		                "top": "0px",
 		                "left": "0px",
 		                "bottom": "0px",
@@ -192,13 +368,18 @@
 
 		            overlay.css({
 		                "position": "fixed",
-		                "z-index": 9999,
+		                "z-index": settings.zindex + 1,
 		                "top": "0px",
 		                "left": "0px",
 		                "bottom": "0px",
 		                "right": "0px",
 		                "height": "100%",
 		                "width": "100%"
+		            });
+
+		            picker.css({
+		                "position": "absolute",
+		                "z-index": settings.zindex + 2
 		            });
 
 		            elements.element = element;
@@ -209,12 +390,16 @@
 					element.addClass(settings.picker_class);
 					element.addClass(settings.picker_static_class);
 
-					elements.element = element;
-					elements.picker = element;
+					element.css({
+		                "position": "absolute",
+		                "z-index": settings.zindex + 2
+		            });
+
+					elements.element = elements.picker = element;
 				}
 
 				if(options.draggable) {
-					element.addClass(picker_draggable_class);
+					elements.element.addClass(settings.picker_draggable_class);
 				}
 
 				/* handle specific width */
@@ -238,14 +423,33 @@
 
 				/* adds transitions if there is one */
 				if(options.transition) {
+					elements.picker.addClass(options.transition);
 					elements.element.addClass(options.transition);
 				}
+
+				/*adds close button if there is one*/
+				if(options.closeButton) {
+					var close_button = $("<div class='"+settings.close_button_class+"' "+settings.picker_close_attr+">&times;</div>").appendTo(elements.picker);
+					elements.close_button = close_button;
+				}
+
+				/*adds content container*/
+				var content_placeholder = $("<div class='"+settings.content_class+"'></div>").appendTo(elements.picker);
+					elements.content = content_placeholder;
+
+				/*adds confirmation button if there is one*/
+				if(options.confirmButton === true || $.type(options.confirmButton) === 'string') {
+					var text = ($.type(options.confirmButton) === 'string') ? options.confirmButton : "OK";
+					var confirm_button = $("<div class='"+settings.picker_footer_class+"'><button class='btn btn-default "+settings.ok_button_class+"' "+settings.picker_ok_attr+">"+text+"</button></div>").appendTo(elements.picker);
+					elements.confirm_button = confirm_button;
+				}
+
 
 				return elements;
 			}
 
 			/* Method that actually displays our picker on screem */
-			function open_picker(elements) {
+			function open_picker() {
 
 				//beforeOpen
 				events.trigger('beforeOpen');
@@ -284,8 +488,15 @@
                 //make it invisible
 				elements.element.removeClass('visible');
 
-				events.trigger('afterClose');
-                
+
+				//trigger event only after a few ms to allow transition
+
+				var wait_time = (options.transition === 'no-transition') ? 0 : 500;
+
+				var i = setInterval(function() {
+					events.trigger('afterClose');
+					clearInterval(i);
+				}, wait_time);
 			} 
             
             /* Method that removes DOM elements */
@@ -294,56 +505,103 @@
                 for(i in elements) {
                 	elements[i].remove();
                 }
-                events.trigger('afterClose');
             }
 
-            function bind_keys() {
-            	throw_msg("BINDING KEYYYYS");
+            function bind_actions() {
+            	if($.type(elements.overlay) !== 'undefined' && options.clickOverlay) {
+            		elements.overlay.click(function() {
+            			close_picker();
+            		});
+            	}
+
+            	//when you click a close button (any)
+            	$(elements.picker).find('['+settings.picker_close_attr+']').click(function() {
+            		close_picker();
+            	});
+
+            	//when you click an OK button (any)
+            	$(elements.picker).find('['+settings.picker_ok_attr+']').click(function() {
+            		var values = retrieve_values();
+            		events.trigger("onSet", values);
+            		close_picker();
+            	});
+
+            	if(options.draggable === true) {
+            		elements.picker.draggable({
+            			zindex: settings.zindex + 2
+            		});
+            	}
+
             }
 
-            function unbind_keys() {
-            	throw_msg("UNBINDING KEYYYYS");
+            function unbind_actions() {
+            	
             }
 
-			/* Method that handles key events (ESC key only for now) 
-			function bind_keys(e) {
-				var code = (e.keyCode ? e.keyCode : e.which);
-				//Esc keycode = 27
-				if (options.closeEsc === true && code == 27) {
-					close_modal();
-				}
-				//ENTER keycode = 13
-                if(options.clickEnter !== false && code == 13) {
-                    var enterBtn = false;
-                    switch(options.clickEnter) {
-                        case true:
-                            enterBtn = modal.find("button[type='submit']:last");
-                            break;
-                        case 'first':
-                            enterBtn = modal.find("button:first");
-                            break;
-                        case 'last':
-                            enterBtn = modal.find("button:last");
-                            break;
-                        default:
-                            enterBtn = modal.find(options.enterButton);
-                            break;
-                    }
-                    enterBtn.click();
-                    //avoid multiple Enter hits
-                    options.clickEnter = null;
-                }
-			} */
+            function retrieve_values() {
+            	var values = {};
+            	elements.content.find("select, input, textarea, ["+settings.selectable_attr+"]").each(function() {
 
-			/* Method that determines what to do with close button 
-			function close_button() {
-				if (options.closeButton === true) {
-					modal.prepend("<button type='button' class='" + definitions.close_button + "'>&times;</button>");
-					modal.find("." + definitions.close_button).unbind('click');
-					modal.find("." + definitions.close_button).bind('click', close_modal);
-				}
-			}*/
-			
+            		var value;
+            		var selectable = $(this).attr(settings.selectable_attr);
+            		if($.type(selectable) !== 'undefined' && selectable !== false) {
+            			value = selectable;
+            		} else {
+            			value = $(this).val();
+            		}
+
+            		var name = $(this).attr("name") || $(this).attr("id") || $(this).prop("tagName");
+            		values[name] = value;
+            	});
+            	return values;
+            }
+
 		}
 	});
+
+	//drag support
+	$.fn.draggable = function(opt) {
+
+        opt = $.extend({
+        	handle:"",
+        	zindex: 9999
+        }, opt);
+
+        if(opt.handle === "") {
+            var $el = this;
+        } else {
+            var $el = this.find(opt.handle);
+        }
+
+        return $el.on("mousedown", function(e) {
+            if(opt.handle === "") {
+                var $drag = $(this).addClass('draggable');
+            } else {
+                var $drag = $(this).addClass('active-handle').parent().addClass('draggable');
+            }
+            var z_idx = $drag.css('z-index'),
+                drg_h = $drag.outerHeight(),
+                drg_w = $drag.outerWidth(),
+                pos_y = $drag.offset().top + drg_h - e.pageY,
+                pos_x = $drag.offset().left + drg_w - e.pageX;
+            $drag.css('z-index', opt.zindex).parents().on("mousemove", function(e) {
+                $('.draggable').offset({
+                    top:e.pageY + pos_y - drg_h,
+                    left:e.pageX + pos_x - drg_w
+                }).on("mouseup", function() {
+                    $(this).removeClass('draggable').css('z-index', z_idx);
+                });
+            });
+            e.preventDefault(); // disable selection
+        }).on("mouseup", function() {
+            if(opt.handle === "") {
+                $(this).removeClass('draggable');
+            } else {
+                $(this).removeClass('active-handle').parent().removeClass('draggable');
+            }
+        });
+
+    };
+
+
 })(jQuery);
