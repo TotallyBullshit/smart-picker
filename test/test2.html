@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Testing pickers</title>
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="test.css">
+
+	<!-- Personalized CSS for the picker-->
+	<link rel="stylesheet" type="text/css" href="picker.css">
+
+	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
+	<script type="text/javascript" src="../dist/picker.js"></script>
+
+</head>
+<body>
+
+	<h1>Test #2 - Event callbacks</h1>
+
+	<h2>beforeOpen</h2>
+	<p>There are similar options for: beforeOpen, afterOpen, beforeClose, afterClose</p>
+	<p><button class="button" id="button1">Open Picker</button></p>
+
+	<h3>Usage:</h3>
+	<pre>
+$.picker("regular", "my-picker", {
+	beforeOpen: function() {
+		alert("This happens before the picker is created");
+	}
+});</pre>
+
+	<h2>onInteraction</h2>
+	<p>The callback is called everytime the value changes</p>
+	<p><button class="button" id="button2">Choose a number</button></p>
+
+	<h4>The value now is: <span id="result2"></span></h4>
+
+	<h3>Usage:</h3>
+	<pre>
+$.picker("regular", "my-picker", {
+	onInteraction: function(value) {
+		$("#result").html(value);
+	}
+});</pre>
+
+	<h2>onSet</h2>
+	<p><button class="button" id="button3">Choose a number</button></p>
+	<h4>The value now is set to: <span id="result3"></span></h4>
+
+	<h3>Usage:</h3>
+	<pre>
+$.picker("regular", "my-picker", {
+	onSet: function() {
+		$("#result").html(value);
+	},
+	confirmButton: "Confirm this number" //true works fine too
+});</pre>
+
+	<h2>Combined: onInteraction and onSet</h2>
+		<p><button class="button" id="button4">Choose a number</button></p>
+		<h4>Current selection: <span id="result4"></span></h4>
+
+		<h3>Usage:</h3>
+		<pre>
+	$.picker("regularList", "my-picker", {
+		onInteraction: function(value) {
+			$("#result").html(value);
+		},
+		onSet: function(value) {
+			alert("Selected value: "+value);
+		},
+		confirmButton: "Confirm this number" //true works fine too
+	});</pre>
+
+	<hr/>
+	<p><a  id="menu_test">Menu</a></p>
+	
+	<script>
+
+		$("#button1").click(function() {
+			$.picker("regular", "my-picker", {
+				beforeOpen: function() {
+					alert("This happens before the picker is created");
+				}
+			});
+		});
+		$("#button2").click(function() {
+			$.picker("regular", "my-picker", {
+				onInteraction: function(value) {
+					$("#result2").html(value);
+				}
+			});
+		});
+		$("#button3").click(function() {
+			$.picker("regular", "my-picker", {
+				onSet: function(values) {
+					$("#result3").html(values.picker_selector);
+				},
+				confirmButton: "Confirm this number" //true works fine too
+			});
+		});
+		$("#button4").click(function() {
+			$.picker("regularList", "my-picker", {
+				onInteraction: function(value) {
+					$("#result4").html(value);
+				},
+				onSet: function(values) {
+					alert("Selected value: "+values.picker_selector);
+				},
+				confirmButton: "Confirm this number" //true works fine too
+			});
+		});
+
+	</script>
+
+
+	<script type="text/javascript" src="menu.js"></script>
+
+</body>
+</html>

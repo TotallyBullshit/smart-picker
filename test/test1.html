@@ -20,10 +20,33 @@
 </head>
 <body>
 
-	<h1 align="center">Tests</h1>
+	<h1>Test #1 - Simple Picker</h1>
 
-	<p align="center">Choose which test you want to visit using the button below</p>
-	<p align="center"><button class="button" id="menu">Choose a test</button></p>
+	<p>This is supposed to just open a modal window with a simple picker</p>
+	<p>Click on the button below to see in action and click outside to close the picker</p>
+	<p><button class="button" id="button">Open Picker</button></p>
+
+	<hr/>
+	<h3>Usage:</h3>
+	<pre>
+$("#button").click(function() {
+	$.picker("regular", "my-picker", {});
+});</pre>
+	<h2>Format:</h2>
+	<p>Picker needs a type (string), an id for the new element (string), and a few extra options (object), as follows:</p>
+	<pre>$.picker([type], [id], [options]);</pre>
+
+	<hr/>
+	<p><a id="menu_test">Menu</a></p>
+	
+	<script>
+
+		$("#button").click(function() {
+			$.picker("regular", "my-picker", {});
+		});
+
+	</script>
+
 
 	<script type="text/javascript" src="menu.js"></script>
 
