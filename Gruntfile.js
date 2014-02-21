@@ -15,7 +15,7 @@ module.exports = function (grunt) {
     var gruntConfig = {
         //simple watch task
         watch: {
-             files: [src_folder+'scripts/picker.js'],
+             files: [src_folder+'styles/*.scss',src_folder+'scripts/picker.js'],
              tasks: ['build']
         },
         clean: {
