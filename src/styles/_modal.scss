@@ -1,8 +1,34 @@
 .picker-modal {
-	& > .picker-picker {
 
+	& > .picker-picker {
+		min-width: 240px;
+		max-width: 80%;
 	}
 	& > .picker-overlay {
-		
+		//display: none;
+	    background: $colorBlack;
+	    @include opacity(0);
+	    @include single-transition(opacity, 0.3s, ease);
 	}
+
+	//what happens when it's visible
+	&.visible {
+	    & > .picker-picker {
+	    	display: block;
+	    	@include translate3d(0px, 0px, 0px);
+	    	@include opacity(1);
+		}
+		& > .picker-overlay {
+	    	//display: block;
+		    background: $colorBlack;
+		    @include opacity($overlayOpacity);
+		}
+	}
+
+	&.no-transition {
+		& > .picker-overlay {
+			@include single-transition(all, 0s, ease);
+		}
+	}
+
 }
