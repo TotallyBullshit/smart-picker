@@ -3,15 +3,18 @@
 > Picker is a general library for pickers, used primarily in [Vizabi](https://github.com/Gapminder/vizabi)
 
 ## Getting started
-You can simply grab a copy of the necessary files in the folder ```dist```. You need to include jQuery, Picker's javascript file and the CSS file to your ```<head>``` tag to get it up and running properly:
+You can simply grab a copy of the necessary files in the folder ```dist```. You need to include jQuery, Underscore, the Picker's javascript file and the CSS file to your ```<head>``` tag to get it up and running properly:
 
 ```html
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="styles/picker.min.css">
 <!-- Javascript (may be placed at the bottom, inside the <body> tag) -->
-<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="/path/to/jquery.min.js"></script>
+<script type="text/javascript" src="/path/to/underscore.min.js"></script>
 <script type="text/javascript" src="picker.min.js"></script>
 ```
+
+*In this repo, jQuery and Underscore are located in the folder 'vendor'*
 
 ### Using pickers
 
