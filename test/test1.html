@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
 	<script type="text/javascript" src="../dist/picker.js"></script>
 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
 <body>
 
@@ -29,12 +30,13 @@
 	<hr/>
 	<h3>Usage:</h3>
 	<pre>
+var my_picker = new Picker("regular", "my-picker", {});
 $("#button").click(function() {
-	$.picker("regular", "my-picker", {});
+	my_picker.show();
 });</pre>
 	<h2>Format:</h2>
 	<p>Picker needs a type (string), an id for the new element (string), and a few extra options (object), as follows:</p>
-	<pre>$.picker([type], [id], [options]);</pre>
+	<pre>new Picker([type], [id], [options]);</pre>
 
 	<hr/>
 	<p><a id="menu_test">Menu</a></p>
@@ -42,7 +44,8 @@ $("#button").click(function() {
 	<script>
 
 		$("#button").click(function() {
-			$.picker("regular", "my-picker", {});
+			var my_picker = new Picker("regular", "my-picker", {});
+			my_picker.show();
 		});
 
 	</script>

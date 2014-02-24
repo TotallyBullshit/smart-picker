@@ -34,7 +34,7 @@ for(var i=0, size=tests.length; i<size; i++) {
 }
 
 $("#menu").click(function() {
-	$.picker("regular_list", "menuPicker", {
+	var picker = new Picker("regularList", "menuPicker", {
 		contentData: menu_data,
 		closeButton: true,
 		transition: 'fade',
@@ -45,10 +45,11 @@ $("#menu").click(function() {
 			location.href = value;
 		} 
 	});
+	picker.show();
 });
 
 $("#menu_test").click(function() {
-	$.picker("regular_list", "menuPicker", {
+	var picker = new Picker("regularList", "menuPicker", {
 		contentData: menu_data,
 		closeButton: true,
 		transition: 'slideLeft',
@@ -60,4 +61,5 @@ $("#menu_test").click(function() {
 			location.href = value;
 		} 
 	});
+	picker.show();
 });

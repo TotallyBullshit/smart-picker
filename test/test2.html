@@ -16,23 +16,25 @@
 	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
 	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
 	<script type="text/javascript" src="../dist/picker.js"></script>
-
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
 <body>
 
 	<h1>Test #2 - Event callbacks</h1>
 
-	<h2>beforeOpen</h2>
-	<p>There are similar options for: beforeOpen, afterOpen, beforeClose, afterClose</p>
-	<p><button class="button" id="button1">Open Picker</button></p>
+	<h2>beforeShow</h2>
+	<p>There are similar options for: beforeShow, afterShow, beforeHide, afterHide</p>
+	<p><button class="button" id="button1">Show Picker</button></p>
 
 	<h3>Usage:</h3>
 	<pre>
-$.picker("regular", "my-picker", {
-	beforeOpen: function() {
+var picker = new Picker("regular", "my-picker", {
+	beforeShow: function() {
 		alert("This happens before the picker is created");
 	}
-});</pre>
+});
+picker.show();</pre>
 
 	<h2>onInteraction</h2>
 	<p>The callback is called everytime the value changes</p>
@@ -42,11 +44,12 @@ $.picker("regular", "my-picker", {
 
 	<h3>Usage:</h3>
 	<pre>
-$.picker("regular", "my-picker", {
+var picker = new Picker("regular", "my-picker", {
 	onInteraction: function(value) {
 		$("#result").html(value);
 	}
-});</pre>
+});
+picker.show();</pre>
 
 	<h2>onSet</h2>
 	<p><button class="button" id="button3">Choose a number</button></p>
@@ -54,12 +57,13 @@ $.picker("regular", "my-picker", {
 
 	<h3>Usage:</h3>
 	<pre>
-$.picker("regular", "my-picker", {
+var picker = new Picker("regular", "my-picker", {
 	onSet: function() {
 		$("#result").html(value);
 	},
 	confirmButton: "Confirm this number" //true works fine too
-});</pre>
+});
+picker.show();</pre>
 
 	<h2>Combined: onInteraction and onSet</h2>
 		<p><button class="button" id="button4">Choose a number</button></p>
@@ -67,53 +71,62 @@ $.picker("regular", "my-picker", {
 
 		<h3>Usage:</h3>
 		<pre>
-	$.picker("regularList", "my-picker", {
-		onInteraction: function(value) {
-			$("#result").html(value);
-		},
-		onSet: function(value) {
-			alert("Selected value: "+value);
-		},
-		confirmButton: "Confirm this number" //true works fine too
-	});</pre>
+var picker = new Picker("regularList", "my-picker", {
+	onInteraction: function(value) {
+		$("#result").html(value);
+	},
+	onSet: function(value) {
+		alert("Selected value: "+value);
+	},
+	confirmButton: "Confirm this number" //true works fine too
+});
+picker.show();</pre>
 
 	<hr/>
 	<p><a  id="menu_test">Menu</a></p>
 	
 	<script>
 
+		var picker1 = new Picker("regular", "my-picker1", {
+			beforeShow: function() {
+				alert("This happens before the picker is created");
+			}
+		});
+
+		var picker2 = new Picker("regular", "my-picker2", {
+			onInteraction: function(value) {
+				$("#result2").html(value);
+			}
+		});
+
+		var picker3 = new Picker("regular", "my-picker3", {
+			onSet: function(values) {
+				$("#result3").html(values.picker_selector);
+			},
+			confirmButton: "Confirm this number" //true works fine too
+		});
+
+		var picker4 = new Picker("regularList", "my-picker4", {
+			onInteraction: function(value) {
+				$("#result4").html(value);
+			},
+			onSet: function(values) {
+				alert("Selected value: "+values.picker_selector);
+			},
+			confirmButton: "Confirm this number" //true works fine too
+		});
+
 		$("#button1").click(function() {
-			$.picker("regular", "my-picker", {
-				beforeOpen: function() {
-					alert("This happens before the picker is created");
-				}
-			});
+			picker1.show();
 		});
 		$("#button2").click(function() {
-			$.picker("regular", "my-picker", {
-				onInteraction: function(value) {
-					$("#result2").html(value);
-				}
-			});
+			picker2.show();
 		});
 		$("#button3").click(function() {
-			$.picker("regular", "my-picker", {
-				onSet: function(values) {
-					$("#result3").html(values.picker_selector);
-				},
-				confirmButton: "Confirm this number" //true works fine too
-			});
+			picker3.show();
 		});
 		$("#button4").click(function() {
-			$.picker("regularList", "my-picker", {
-				onInteraction: function(value) {
-					$("#result4").html(value);
-				},
-				onSet: function(values) {
-					alert("Selected value: "+values.picker_selector);
-				},
-				confirmButton: "Confirm this number" //true works fine too
-			});
+			picker4.show();
 		});
 
 	</script>
