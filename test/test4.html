@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Testing pickers</title>
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="test.css">
+
+	<!-- Personalized CSS for the picker-->
+	<link rel="stylesheet" type="text/css" href="picker.css">
+
+	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
+	<script type="text/javascript" src="../dist/picker.js"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+
+	<h1>Test #4 - Types of pickers</h1>
+
+	<h2>regular</h2>
+	<p></p>
+	<p><button class="button" id="button1">Show Picker</button></p>
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-list", {});
+picker.show();</pre>
+
+	<h2>regularList</h2>
+	<p></p>
+	<p><button class="button" id="button2">Show Picker</button></p>
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regularList", "my-list2", {});
+picker.show();</pre>
+
+	<h2>geo</h2>
+	<p></p>
+	<p><button class="button" id="button3">Show Picker</button></p>
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("geo", "my-geo", {});
+picker.show();</pre>
+
+	<h2>geoMult</h2>
+	<p></p>
+	<p><button class="button" id="button4">Show Picker</button></p>
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("geoMult", "my-geo-mult", {});
+picker.show();</pre>
+
+	<hr/>
+	<p><a  id="menu_test">Menu</a></p>
+	
+	<script>
+
+		var picker1 = new Picker("regular", "my-list", {});
+
+		var picker2 = new Picker("regularList", "my-list2", {});
+
+		var picker3 = new Picker("geo", "my-geo", {});
+
+		var picker4 = new Picker("geoMult", "my-geo-mult", {});
+
+		$("#button1").click(function() {
+			picker1.show();
+		});
+		$("#button2").click(function() {
+			picker2.show();
+		});
+		$("#button3").click(function() {
+			picker3.show();
+		});
+		$("#button4").click(function() {
+			picker4.show();
+		});
+
+	</script>
+
+
+	<script type="text/javascript" src="menu.js"></script>
+
+</body>
+</html>

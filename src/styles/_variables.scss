@@ -1,0 +1,12 @@
+$fontFamily: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+//general
+$overlayOpacity: 0.2;
+$pickerPadding: 30px;
+$pickerRadius: 5px;
+
+//colors
+$colorWhite: white;
+$colorBlack: black;
+$colorTransparent: rgba(0,0,0,0);
+$colorBlackTransparent: rgba(0,0,0,$overlayOpacity);

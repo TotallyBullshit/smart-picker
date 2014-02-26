@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Testing pickers</title>
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="test.css">
+
+	<!-- Personalized CSS for the picker-->
+	<link rel="stylesheet" type="text/css" href="picker.css">
+
+	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
+	<script type="text/javascript" src="../dist/picker.js"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+
+	<h1>Test #2 - Event callbacks</h1>
+
+	<h2>beforeShow</h2>
+	<p>There are similar options for: beforeShow, afterShow, beforeHide, afterHide</p>
+	<p><button class="button" id="button1">Show Picker</button></p>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	beforeShow: function() {
+		alert("This happens before the picker is created");
+	}
+});
+picker.show();</pre>
+
+	<h2>onInteraction</h2>
+	<p>The callback is called everytime the value changes</p>
+	<p><button class="button" id="button2">Choose a number</button></p>
+
+	<h4>The value now is: <span id="result2"></span></h4>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	onInteraction: function(data) {
+		$("#result").html(data.selected);
+	}
+});
+picker.show();</pre>
+
+	<h2>onSet</h2>
+	<p><button class="button" id="button3">Choose a number</button></p>
+	<h4>The value now is set to: <span id="result3"></span></h4>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	onSet: function(data) {
+		$("#result").html(data.selected);
+	},
+	confirmButton: "Confirm this number" //true works fine too
+});
+picker.show();</pre>
+
+	<h2>Combined: onInteraction and onSet</h2>
+		<p><button class="button" id="button4">Choose a number</button></p>
+		<h4>Current selection: <span id="result4"></span></h4>
+
+		<h3>Usage:</h3>
+		<pre>
+var picker = new Picker("regularList", "my-picker", {
+	onInteraction: function(data) {
+		$("#result").html(data.selected);
+	},
+	onSet: function(data) {
+		alert("Selected value: "+data.selected);
+	},
+	confirmButton: "Confirm this number" //true works fine too
+});
+picker.show();</pre>
+
+	<hr/>
+	<p><a  id="menu_test">Menu</a></p>
+	
+	<script>
+
+		var picker1 = new Picker("regular", "my-picker1", {
+			beforeShow: function() {
+				alert("This happens before the picker is created");
+			}
+		});
+
+		var picker2 = new Picker("regular", "my-picker2", {
+			onInteraction: function(data) {
+				$("#result2").html(data.selected);
+			}
+		});
+
+		var picker3 = new Picker("regular", "my-picker3", {
+			onSet: function(data) {
+				$("#result3").html(data.selected);
+			},
+			confirmButton: "Confirm this number" //true works fine too
+		});
+
+		var picker4 = new Picker("regularList", "my-picker4", {
+			onInteraction: function(data) {
+				$("#result4").html(data.selected);
+			},
+			onSet: function(data) {
+				alert("Selected value: "+data.selected);
+			},
+			confirmButton: "Confirm this number" //true works fine too
+		});
+
+		$("#button1").click(function() {
+			picker1.show();
+		});
+		$("#button2").click(function() {
+			picker2.show();
+		});
+		$("#button3").click(function() {
+			picker3.show();
+		});
+		$("#button4").click(function() {
+			picker4.show();
+		});
+
+	</script>
+
+
+	<script type="text/javascript" src="menu.js"></script>
+
+</body>
+</html>
