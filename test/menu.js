@@ -11,8 +11,6 @@ var tests = [
 	"Simple Picker",
 	"Event callbacks",
 	"A few options",
-	"Size and Position",
-	"Drag the picker",
 	"Type of picker",
 	"Advanced",
 ];
@@ -41,8 +39,8 @@ $("#menu").click(function() {
 		top: 100,
 		width: 400,
 		draggable: true,
-		onInteraction: function(value) {
-			location.href = value;
+		onInteraction: function(data) {
+			location.href = data.selected;
 		} 
 	});
 	picker.show();
@@ -57,8 +55,8 @@ $("#menu_test").click(function() {
 		top: 'auto',
 		bottom: 50,
 		width: 400,
-		onInteraction: function(value) {
-			location.href = value;
+		onInteraction: function(data) {
+			location.href = data.selected;
 		} 
 	});
 	picker.show();

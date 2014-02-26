@@ -26,6 +26,7 @@
 		_this.type = type;
 		_this.id = id;
 		_this.options = options;
+		_this.state = {};
 
 		//============= SETTING UP INITIAL AND DEV OPTIONS =============
 		/* naming definitions */
@@ -41,7 +42,7 @@
 			ok_button_class: 'picker-ok-button',
 			content_class: 'picker-content',
 			//types of pickers
-			possible_types: ['regular', 'regularList', 'geo'],
+			possible_types: ['regular', 'regularList', 'geo', 'geoMult'],
 			default_type: 'regular',
 			//possible transitions
             possible_transitions: ['no-transition', 'fade', 'slide', 'slideUp', 'slideRight', 'slideLeft'],
@@ -68,7 +69,6 @@
 			height: 'auto',
 
 			//visual propert
-			extraClass: [],
 			transition: settings.default_transition,
 			//container may only be changed if static = true
 			container: 'body',
@@ -81,7 +81,6 @@
             draggable: false,
             static: false,
             allowDuplicates: false,
-            removeHTML: false,
 
             //events
             beforeShow: undefined,
@@ -155,6 +154,11 @@
 			}
 		};
 
+		var dataMan = {
+			countries: [{value:"", name: "Choose...", selected: true},{name:'Afghanistan',value:'AF'},{name:'ÅlandIslands',value:'AX'},{name:'Albania',value:'AL'},{name:'Algeria',value:'DZ'},{name:'AmericanSamoa',value:'AS'},{name:'AndorrA',value:'AD'},{name:'Angola',value:'AO'},{name:'Anguilla',value:'AI'},{name:'Antarctica',value:'AQ'},{name:'AntiguaandBarbuda',value:'AG'},{name:'Argentina',value:'AR'},{name:'Armenia',value:'AM'},{name:'Aruba',value:'AW'},{name:'Australia',value:'AU'},{name:'Austria',value:'AT'},{name:'Azerbaijan',value:'AZ'},{name:'Bahamas',value:'BS'},{name:'Bahrain',value:'BH'},{name:'Bangladesh',value:'BD'},{name:'Barbados',value:'BB'},{name:'Belarus',value:'BY'},{name:'Belgium',value:'BE'},{name:'Belize',value:'BZ'},{name:'Benin',value:'BJ'},{name:'Bermuda',value:'BM'},{name:'Bhutan',value:'BT'},{name:'Bolivia',value:'BO'},{name:'BosniaandHerzegovina',value:'BA'},{name:'Botswana',value:'BW'},{name:'BouvetIsland',value:'BV'},{name:'Brazil',value:'BR'},{name:'BritishIndianOceanTerritory',value:'IO'},{name:'BruneiDarussalam',value:'BN'},{name:'Bulgaria',value:'BG'},{name:'BurkinaFaso',value:'BF'},{name:'Burundi',value:'BI'},{name:'Cambodia',value:'KH'},{name:'Cameroon',value:'CM'},{name:'Canada',value:'CA'},{name:'CapeVerde',value:'CV'},{name:'CaymanIslands',value:'KY'},{name:'CentralAfricanRepublic',value:'CF'},{name:'Chad',value:'TD'},{name:'Chile',value:'CL'},{name:'China',value:'CN'},{name:'ChristmasIsland',value:'CX'},{name:'Cocos(Keeling)Islands',value:'CC'},{name:'Colombia',value:'CO'},{name:'Comoros',value:'KM'},{name:'Congo',value:'CG'},{name:'Congo,TheDemocraticRepublicofthe',value:'CD'},{name:'CookIslands',value:'CK'},{name:'CostaRica',value:'CR'},{name:'CoteD\'Ivoire',value:'CI'},{name:'Croatia',value:'HR'},{name:'Cuba',value:'CU'},{name:'Cyprus',value:'CY'},{name:'CzechRepublic',value:'CZ'},{name:'Denmark',value:'DK'},{name:'Djibouti',value:'DJ'},{name:'Dominica',value:'DM'},{name:'DominicanRepublic',value:'DO'},{name:'Ecuador',value:'EC'},{name:'Egypt',value:'EG'},{name:'ElSalvador',value:'SV'},{name:'EquatorialGuinea',value:'GQ'},{name:'Eritrea',value:'ER'},{name:'Estonia',value:'EE'},{name:'Ethiopia',value:'ET'},{name:'FalklandIslands(Malvinas)',value:'FK'},{name:'FaroeIslands',value:'FO'},{name:'Fiji',value:'FJ'},{name:'Finland',value:'FI'},{name:'France',value:'FR'},{name:'FrenchGuiana',value:'GF'},{name:'FrenchPolynesia',value:'PF'},{name:'FrenchSouthernTerritories',value:'TF'},{name:'Gabon',value:'GA'},{name:'Gambia',value:'GM'},{name:'Georgia',value:'GE'},{name:'Germany',value:'DE'},{name:'Ghana',value:'GH'},{name:'Gibraltar',value:'GI'},{name:'Greece',value:'GR'},{name:'Greenland',value:'GL'},{name:'Grenada',value:'GD'},{name:'Guadeloupe',value:'GP'},{name:'Guam',value:'GU'},{name:'Guatemala',value:'GT'},{name:'Guernsey',value:'GG'},{name:'Guinea',value:'GN'},{name:'Guinea-Bissau',value:'GW'},{name:'Guyana',value:'GY'},{name:'Haiti',value:'HT'},{name:'HeardIslandandMcdonaldIslands',value:'HM'},{name:'HolySee(VaticanCityState)',value:'VA'},{name:'Honduras',value:'HN'},{name:'HongKong',value:'HK'},{name:'Hungary',value:'HU'},{name:'Iceland',value:'IS'},{name:'India',value:'IN'},{name:'Indonesia',value:'ID'},{name:'Iran,IslamicRepublicOf',value:'IR'},{name:'Iraq',value:'IQ'},{name:'Ireland',value:'IE'},{name:'IsleofMan',value:'IM'},{name:'Israel',value:'IL'},{name:'Italy',value:'IT'},{name:'Jamaica',value:'JM'},{name:'Japan',value:'JP'},{name:'Jersey',value:'JE'},{name:'Jordan',value:'JO'},{name:'Kazakhstan',value:'KZ'},{name:'Kenya',value:'KE'},{name:'Kiribati',value:'KI'},{name:'Korea,DemocraticPeople\'SRepublicof',value:'KP'},{name:'Korea,Republicof',value:'KR'},{name:'Kuwait',value:'KW'},{name:'Kyrgyzstan',value:'KG'},{name:'LaoPeople\'SDemocraticRepublic',value:'LA'},{name:'Latvia',value:'LV'},{name:'Lebanon',value:'LB'},{name:'Lesotho',value:'LS'},{name:'Liberia',value:'LR'},{name:'LibyanArabJamahiriya',value:'LY'},{name:'Liechtenstein',value:'LI'},{name:'Lithuania',value:'LT'},{name:'Luxembourg',value:'LU'},{name:'Macao',value:'MO'},{name:'Macedonia,TheFormerYugoslavRepublicof',value:'MK'},{name:'Madagascar',value:'MG'},{name:'Malawi',value:'MW'},{name:'Malaysia',value:'MY'},{name:'Maldives',value:'MV'},{name:'Mali',value:'ML'},{name:'Malta',value:'MT'},{name:'MarshallIslands',value:'MH'},{name:'Martinique',value:'MQ'},{name:'Mauritania',value:'MR'},{name:'Mauritius',value:'MU'},{name:'Mayotte',value:'YT'},{name:'Mexico',value:'MX'},{name:'Micronesia,FederatedStatesof',value:'FM'},{name:'Moldova,Republicof',value:'MD'},{name:'Monaco',value:'MC'},{name:'Mongolia',value:'MN'},{name:'Montserrat',value:'MS'},{name:'Morocco',value:'MA'},{name:'Mozambique',value:'MZ'},{name:'Myanmar',value:'MM'},{name:'Namibia',value:'NA'},{name:'Nauru',value:'NR'},{name:'Nepal',value:'NP'},{name:'Netherlands',value:'NL'},{name:'NetherlandsAntilles',value:'AN'},{name:'NewCaledonia',value:'NC'},{name:'NewZealand',value:'NZ'},{name:'Nicaragua',value:'NI'},{name:'Niger',value:'NE'},{name:'Nigeria',value:'NG'},{name:'Niue',value:'NU'},{name:'NorfolkIsland',value:'NF'},{name:'NorthernMarianaIslands',value:'MP'},{name:'Norway',value:'NO'},{name:'Oman',value:'OM'},{name:'Pakistan',value:'PK'},{name:'Palau',value:'PW'},{name:'PalestinianTerritory,Occupied',value:'PS'},{name:'Panama',value:'PA'},{name:'PapuaNewGuinea',value:'PG'},{name:'Paraguay',value:'PY'},{name:'Peru',value:'PE'},{name:'Philippines',value:'PH'},{name:'Pitcairn',value:'PN'},{name:'Poland',value:'PL'},{name:'Portugal',value:'PT'},{name:'PuertoRico',value:'PR'},{name:'Qatar',value:'QA'},{name:'Reunion',value:'RE'},{name:'Romania',value:'RO'},{name:'RussianFederation',value:'RU'},{name:'RWANDA',value:'RW'},{name:'SaintHelena',value:'SH'},{name:'SaintKittsandNevis',value:'KN'},{name:'SaintLucia',value:'LC'},{name:'SaintPierreandMiquelon',value:'PM'},{name:'SaintVincentandtheGrenadines',value:'VC'},{name:'Samoa',value:'WS'},{name:'SanMarino',value:'SM'},{name:'SaoTomeandPrincipe',value:'ST'},{name:'SaudiArabia',value:'SA'},{name:'Senegal',value:'SN'},{name:'SerbiaandMontenegro',value:'CS'},{name:'Seychelles',value:'SC'},{name:'SierraLeone',value:'SL'},{name:'Singapore',value:'SG'},{name:'Slovakia',value:'SK'},{name:'Slovenia',value:'SI'},{name:'SolomonIslands',value:'SB'},{name:'Somalia',value:'SO'},{name:'SouthAfrica',value:'ZA'},{name:'SouthGeorgiaandtheSouthSandwichIslands',value:'GS'},{name:'Spain',value:'ES'},{name:'SriLanka',value:'LK'},{name:'Sudan',value:'SD'},{name:'Suriname',value:'SR'},{name:'SvalbardandJanMayen',value:'SJ'},{name:'Swaziland',value:'SZ'},{name:'Sweden',value:'SE'},{name:'Switzerland',value:'CH'},{name:'SyrianArabRepublic',value:'SY'},{name:'Taiwan,ProvinceofChina',value:'TW'},{name:'Tajikistan',value:'TJ'},{name:'Tanzania,UnitedRepublicof',value:'TZ'},{name:'Thailand',value:'TH'},{name:'Timor-Leste',value:'TL'},{name:'Togo',value:'TG'},{name:'Tokelau',value:'TK'},{name:'Tonga',value:'TO'},{name:'TrinidadandTobago',value:'TT'},{name:'Tunisia',value:'TN'},{name:'Turkey',value:'TR'},{name:'Turkmenistan',value:'TM'},{name:'TurksandCaicosIslands',value:'TC'},{name:'Tuvalu',value:'TV'},{name:'Uganda',value:'UG'},{name:'Ukraine',value:'UA'},{name:'UnitedArabEmirates',value:'AE'},{name:'UnitedKingdom',value:'GB'},{name:'UnitedStates',value:'US'},{name:'UnitedStatesMinorOutlyingIslands',value:'UM'},{name:'Uruguay',value:'UY'},{name:'Uzbekistan',value:'UZ'},{name:'Vanuatu',value:'VU'},{name:'Venezuela',value:'VE'},{name:'VietNam',value:'VN'},{name:'VirginIslands,British',value:'VG'},{name:'VirginIslands,U.S.',value:'VI'},{name:'WallisandFutuna',value:'WF'},{name:'WesternSahara',value:'EH'},{name:'Yemen',value:'YE'},{name:'Zambia',value:'ZM'},{name:'Zimbabwe',value:'ZW'}],
+
+		}
+
 		//============== TEMPLATING TOOL (PICKER SPECIFIC) ===============
 		var template = {
 			//parse a template
@@ -178,12 +182,8 @@
 				switch(type) {
 					case "geo":
 						data = _.extend({
-							title: "Pick your country",
-							options: [
-								{value:"sv", name: "Sverige"},
-								{value:"br", name: "Brazil"},
-								{value:"us", name: "United States"}
-							]
+							text: "Pick your country",
+							options: dataMan.countries
 						}, data);
 
 						typeTemplate = this.templates['select_one'];
@@ -191,18 +191,37 @@
 						
 						break;
 
-					case "text":
+					case "language":
 						data = _.extend({
-							title: "Pick your country",
-							options: [
-								{value:"sv", name: "Sverige"},
-								{value:"br", name: "Brazil"},
-								{value:"us", name: "United States"}
-							]
+							text: "Pick your language",
+							options: dataMan.languages
 						}, data);
 
 						typeTemplate = this.templates['select_one'];
 						typePostRender = this.functions['select_one'];
+						
+						break;
+
+					case "search":
+						data = _.extend({
+							text: "Search here",
+							options: dataMan.languages
+						}, data);
+
+						typeTemplate = this.templates['single_input'];
+						typePostRender = this.functions['single_input'];
+						
+						break;
+
+					case "geoMult":
+						data = _.extend({
+							text: "Pick your countries",
+							options: dataMan.countries,
+							selected: []
+						}, data);
+
+						typeTemplate = this.templates['select_mult'];
+						typePostRender = this.functions['select_mult'];
 						
 						break;
 
@@ -265,6 +284,33 @@
 							   	"<% }); %>"+
 							   "</select>"+
 						   "</div>",
+				single_input: "<h4><%= text %></h4>"+
+						   "<div>"+
+							   "<select class='form-control' id='picker_selector'>"+
+							   "<% _.each(options, function(opt) { %>"+
+							   		"<option value='<%= opt.value %>' "+
+							   		"<%= (opt.selected) ? 'selected' : '' %>"+
+							   		"><%= opt.name %></option>"+
+							   	"<% }); %>"+
+							   "</select>"+
+						   "</div>",
+				select_mult: "<h4><%= text %></h4>"+
+						   "<div>"+
+							   "<select class='form-control' id='picker_selector'>"+
+							   "<% _.each(options, function(opt) { %>"+
+							   		"<option value='<%= opt.value %>' "+
+							   		"<%= (opt.selected) ? 'selected' : '' %>"+
+							   		"><%= opt.name %></option>"+
+							   	"<% }); %>"+
+							   "</select>"+
+							   "<div id='listSelected'>"+
+							   "<% _.each(selected, function(opt) { %>"+
+							   		"<div class='selected'>"+
+							   		"<%= opt.name %></div>"+
+							   		"<div class='delete'>&times;</div>"+
+							   	"<% }); %>"+
+							   "</div>"+
+						   "</div>",
 				one_from_list: "<h4 align='center'><%= text %></h4>"+
 						   "<div>"+
 							   "<div id='picker_selector' class='btn-group-vertical' "+settings.selectable_attr+">"+
@@ -282,7 +328,44 @@
 						content.find("#picker_selector").on("change",
 						function() {
 							var value = content.find("#picker_selector").val();
-							events.trigger("onInteraction", value);
+							set_state(value);
+							events.trigger("onInteraction", get_state());
+						});
+					},
+				single_input: function(content) {
+						content.find("#picker_input").on("keydown",
+						function() {
+							var value = content.find("#picker_input").val();
+							set_state(value);
+							events.trigger("onInteraction", get_state());
+						});
+					},
+				select_mult: function(content) {
+						content.find("#picker_selector").on("change",
+						function() {
+							var value = content.find("#picker_selector").val();
+							var state = format_state(value);
+							
+							content.find("#listSelected").append("<div>"+value+"</div>");
+							events.trigger("onInteraction", state);
+
+							/* TO DO 
+							if(!_.isArray(_this.state.selected)) _this.state.selected = [];
+							_this.state.selected.push(value);
+							_this.state.selected = _.uniq(_this.state.selected);
+
+
+							var d = data;
+							d.selected.push({name: value, value: value});
+							d.selected = _.uniq(d.selected);
+
+							var temp = template.build(type, d);
+
+							console.log(temp);
+							/* TO DO */
+
+
+
 						});
 					},
 				one_from_list: function(content) {
@@ -295,7 +378,8 @@
 							button.addClass('active');
 							var value = button.attr(settings.value_attr);
 							list.attr(settings.selectable_attr, value);
-							events.trigger("onInteraction", value);
+							set_state(value);
+							events.trigger("onInteraction", get_state());
 						});
 					});
 				}
@@ -337,11 +421,29 @@
 			_this.elements.element.css("display", "block");
 
 			//position it correctly
+			var minTop, maxTop, minLeft, maxLeft, minBottom, maxBottom, minRight, maxRight;
+			if(options.modal === true) {
+				minTop = minBottom = 0;
+				minLeft = minRight = _this.elements.picker.outerWidth() / 2;
+				maxTop = maxBottom = $(window).outerHeight() - _this.elements.picker.outerHeight();
+				maxLeft = maxRight = $(window).outerWidth() - _this.elements.picker.outerWidth() + minLeft;
+
+			} else {
+				minTop = minLeft = minBottom = minRight = 0;
+				maxTop = maxBottom = $(document).outerHeight() - _this.elements.picker.outerHeight();
+				maxLeft = maxRight = $(document).outerWidth() - _this.elements.picker.outerWidth();
+			}
+
+			var posTop = (options.top === "auto") ? options.top : ((options.top > maxTop) ? maxTop : ((options.top < minTop) ? minTop : options.top));
+			var posLeft = (options.left === "auto") ? options.left : ((options.left > maxLeft) ? maxLeft : ((options.left < minLeft) ? minLeft : options.left));
+			var posRight = (options.right === "auto") ? options.right : ((options.right > maxRight) ? maxRight : ((options.right < minRight) ? minRight : options.right));
+			var posBottom = (options.bottom === "auto") ? options.bottom : ((options.bottom > maxBottom) ? maxBottom : ((options.bottom < minBottom) ? minBottom : options.bottom));
+
 			_this.elements.picker.css({
-				"top": options.top,
-				"right": options.right,
-				"bottom": options.bottom,
-				"left": options.left,
+				"top": posTop,
+				"right": posRight,
+				"bottom": posBottom,
+				"left": posLeft,
 			});
 
 			//center it in case it's a modal
@@ -463,7 +565,7 @@
 
 				element.css({
 	                "position": "absolute",
-	                "z-index": settings.zindex + 2
+	                "z-index": Math.round(settings.zindex/2)
 	            });
 
 				elements.element = elements.picker = element;
@@ -474,7 +576,7 @@
 			}
 
 			/* handle specific width */
-			var css_properties = ['width', 'height', 'top', 'left', 'bottom', 'right']
+			var css_properties = ['width', 'height']; //, 'top', 'left', 'bottom', 'right'
 			for (var i = css_properties.length - 1; i >= 0; i--) {
 				var prop = css_properties[i];
 				if($.type(options[prop]) !== 'undefined' && $.type(options[prop]) !== 'null' && options[prop] !== 'auto') {
@@ -534,19 +636,29 @@
         	});
         	//when you click an OK button (any)
         	$(elements.picker).find('['+settings.picker_ok_attr+']').click(function() {
-        		var values = retrieve_values();
+        		var values = get_state();
         		events.trigger("onSet", values);
         		_this.hide();
         	});
         	if(options.draggable === true) {
-        		elements.picker.draggable({
-        			zindex: settings.zindex + 2
-        		});
+        		turn_draggable(elements.picker);
         	}
         }
 
         function unbind_actions() {
 
+        }
+
+        function format_state(state) {
+        	return { selected: state };
+        }
+
+        function set_state(state) {
+        	_this.state = { selected: state };
+        }
+
+        function get_state(state) {
+        	return _this.state;
         }
 
         function retrieve_values() {
@@ -573,6 +685,72 @@
 			console.log("Picker: "+msg);
 		}
 
+		function turn_draggable(element) {
+			var offset = null;
+			//start dragging
+			var startDrag = function(event) {
+				var orig = event.originalEvent;
+			    var pos = element.position();
+
+			    if(orig.changedTouches) {
+				    offset = {
+				      x: orig.changedTouches[0].pageX - pos.left,
+				      y: orig.changedTouches[0].pageY - pos.top
+				    };
+				} else {
+					offset = {
+				      x: orig.pageX - pos.left,
+				      y: orig.pageY - pos.top
+				    };
+				}
+				$(document).bind("touchmove mousemove", moveDrag);
+				$(document).bind("touchend touchcancel mouseup", endDrag);
+				element.children().bind("touchend touchcancel mouseup change", endDrag);
+			};
+			//start moving
+			var moveDrag = function(event) {
+			    event.preventDefault();
+			    var orig = event.originalEvent;
+			    var newTop, newLeft;
+			    if(orig.changedTouches) {
+				   newTop = orig.changedTouches[0].pageY - offset.y;
+				   newLeft = orig.changedTouches[0].pageX - offset.x;
+			    } else {
+					newTop = orig.pageY - offset.y;
+				    newLeft = orig.pageX - offset.x;
+				}
+				//adjust max positions
+				if(!element.hasClass(settings.picker_static_class)) {
+					var maxTop = $(window).outerHeight() - element.outerHeight(),
+						maxLeft = $(window).outerWidth() - element.outerWidth() + element.outerWidth() / 2,
+						minTop = 0,
+						minLeft = element.outerWidth() / 2;
+				} else {
+					var maxTop = $(document).outerHeight() - element.outerHeight(),
+						maxLeft = $(document).outerWidth() - element.outerWidth(),
+						minTop = 0,
+						minLeft = 0;
+				}
+				newTop = (newTop > maxTop) ? maxTop : newTop;
+				newLeft = (newLeft > maxLeft) ? maxLeft : newLeft;
+				newTop = (newTop < minTop) ? minTop : newTop;
+				newLeft = (newLeft < minLeft) ? minLeft : newLeft;
+				//apply positions
+				element.css({
+			      top: newTop,
+			      left: newLeft
+			    });
+		  	};
+		  	//stop listening to mouse move
+		  	var endDrag = function(event) {
+		  		$(document).unbind("touchmove mousemove");
+				$(document).unbind("touchend touchcancel mouseup");
+				element.children().unbind("touchend touchcancel mouseup");
+		  	}
+
+			element.bind("touchstart mousedown", startDrag);
+		}
+
 		//================= BIND EACH USER DEFINED EVENT =================
 
 		var possible_events = [
@@ -593,47 +771,6 @@
 
 		return _this;
 	};
-
-	//drag support
-	$.fn.draggable = function(opt) {
-        opt = $.extend({
-        	handle:"",
-        	zindex: 9999
-        }, opt);
-        if(opt.handle === "") {
-            var $el = this;
-        } else {
-            var $el = this.find(opt.handle);
-        }
-        return $el.on("mousedown", function(e) {
-            if(opt.handle === "") {
-                var $drag = $(this).addClass('draggable');
-            } else {
-                var $drag = $(this).addClass('active-handle').parent().addClass('draggable');
-            }
-            var z_idx = $drag.css('z-index'),
-                drg_h = $drag.outerHeight(),
-                drg_w = $drag.outerWidth(),
-                pos_y = $drag.offset().top + drg_h - e.pageY,
-                pos_x = $drag.offset().left + drg_w - e.pageX;
-            $drag.css('z-index', opt.zindex).parents().on("mousemove", function(e) {
-                $('.draggable').offset({
-                    top:e.pageY + pos_y - drg_h,
-                    left:e.pageX + pos_x - drg_w
-                }).on("mouseup", function() {
-                    $(this).removeClass('draggable').css('z-index', z_idx);
-                });
-            });
-            e.preventDefault(); // disable selection
-        }).on("mouseup", function() {
-            if(opt.handle === "") {
-                $(this).removeClass('draggable');
-            } else {
-                $(this).removeClass('active-handle').parent().removeClass('draggable');
-            }
-        });
-    };
-    //end of drag support
 
 	return Picker;
 }));

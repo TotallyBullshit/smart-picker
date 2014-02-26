@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Testing pickers</title>
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="test.css">
+
+	<!-- Personalized CSS for the picker-->
+	<link rel="stylesheet" type="text/css" href="picker.css">
+
+	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
+	<script type="text/javascript" src="../dist/picker.js"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+
+	<h1>Test #3 - Options</h1>
+
+	<h2>Position and Size</h2>
+	<p>The available positions are: top, left, bottom, right, width and height</p>
+	<p><button class="button" id="button1">Show Picker</button></p>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	top: 300,
+	width: '600px'
+});
+picker.show();</pre>
+
+	<h2>Transitions</h2>
+	<p>The available transitions are: 'no-transition', 'fade', 'slide', 'slideUp', 'slideRight', 'slideLeft'</p>
+	<p><button class="button" id="button2">Show Picker</button></p>
+
+	<h4>The value now is: <span id="result2"></span></h4>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	transition: 'fade'
+});
+picker.show();</pre>
+
+	<h2>Close Button and Confirmation Button</h2>
+	<p>You may overwrite the picker's styles, or you can simply add a class to make it look different</p>
+	<p><button class="button" id="button3">Picker</button></p>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	closeButton: true,
+	confirmButton: "Confirm here", //any string or boolean values
+});
+picker.show();</pre>
+
+	<h2>Click Overlay</h2>
+	<p>If you want to disable clicking the overlay to close the modal, set it to false... It only makes sense for modals.</p>
+	<p><button class="button" id="button4">Picker</button></p>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	clickOverlay: false
+});
+picker.show();</pre>
+
+	<h2>Drag it!</h2>
+	<p>You can have draggable modals too...</p>
+	<p><button class="button" id="button5">Drag modal</button> <button class="button" id="button6">Drag picker (not modal)</button></p>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	clickOverlay: false
+});
+picker.show();</pre>
+
+	<h2>Drag it!</h2>
+	<p>You can have draggable modals too...</p>
+	<p><button class="button" id="button5">Drag modal</button> <button class="button" id="button6">Drag picker (not modal)</button></p>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new Picker("regular", "my-picker", {
+	clickOverlay: false
+});
+picker.show();</pre>
+
+	<hr/>
+	<p><a  id="menu_test">Menu</a></p>
+	
+	<script>
+
+		var picker1 = new Picker("regular", "my-picker1", {
+			top: 300,
+			width: '600px'
+		});
+
+		var picker2 = new Picker("regular", "my-picker2", {
+			transition: 'fade'
+		});
+
+		var picker3 = new Picker("regular", "my-picker3", {
+			closeButton: true,
+			confirmButton: "Confirmation Picker", //any string or boolean values
+		});
+
+		var picker4 = new Picker("regular", "my-picker4", {
+			clickOverlay: false,
+			closeButton: true
+		});
+
+		var picker5 = new Picker("regular", "my-picker5", {
+			draggable: true
+		});
+
+		var picker6 = new Picker("regular", "my-picker6", {
+			transition: 'fade',
+			draggable: true,
+			modal: false,
+			closeButton: true,
+			top: 1500,
+			left: 900
+		});
+
+		$("#button1").click(function() {
+			picker1.show();
+		});
+		$("#button2").click(function() {
+			picker2.show();
+		});
+		$("#button3").click(function() {
+			picker3.show();
+		});
+		$("#button4").click(function() {
+			picker4.show();
+		});
+		$("#button5").click(function() {
+			picker5.show();
+		});
+		$("#button6").click(function() {
+			picker6.show();
+		});
+
+	</script>
+
+
+	<script type="text/javascript" src="menu.js"></script>
+
+</body>
+</html>

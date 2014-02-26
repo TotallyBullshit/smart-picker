@@ -45,8 +45,8 @@ picker.show();</pre>
 	<h3>Usage:</h3>
 	<pre>
 var picker = new Picker("regular", "my-picker", {
-	onInteraction: function(value) {
-		$("#result").html(value);
+	onInteraction: function(data) {
+		$("#result").html(data.selected);
 	}
 });
 picker.show();</pre>
@@ -58,8 +58,8 @@ picker.show();</pre>
 	<h3>Usage:</h3>
 	<pre>
 var picker = new Picker("regular", "my-picker", {
-	onSet: function() {
-		$("#result").html(value);
+	onSet: function(data) {
+		$("#result").html(data.selected);
 	},
 	confirmButton: "Confirm this number" //true works fine too
 });
@@ -72,11 +72,11 @@ picker.show();</pre>
 		<h3>Usage:</h3>
 		<pre>
 var picker = new Picker("regularList", "my-picker", {
-	onInteraction: function(value) {
-		$("#result").html(value);
+	onInteraction: function(data) {
+		$("#result").html(data.selected);
 	},
-	onSet: function(value) {
-		alert("Selected value: "+value);
+	onSet: function(data) {
+		alert("Selected value: "+data.selected);
 	},
 	confirmButton: "Confirm this number" //true works fine too
 });
@@ -94,24 +94,24 @@ picker.show();</pre>
 		});
 
 		var picker2 = new Picker("regular", "my-picker2", {
-			onInteraction: function(value) {
-				$("#result2").html(value);
+			onInteraction: function(data) {
+				$("#result2").html(data.selected);
 			}
 		});
 
 		var picker3 = new Picker("regular", "my-picker3", {
-			onSet: function(values) {
-				$("#result3").html(values.picker_selector);
+			onSet: function(data) {
+				$("#result3").html(data.selected);
 			},
 			confirmButton: "Confirm this number" //true works fine too
 		});
 
 		var picker4 = new Picker("regularList", "my-picker4", {
-			onInteraction: function(value) {
-				$("#result4").html(value);
+			onInteraction: function(data) {
+				$("#result4").html(data.selected);
 			},
-			onSet: function(values) {
-				alert("Selected value: "+values.picker_selector);
+			onSet: function(data) {
+				alert("Selected value: "+data.selected);
 			},
 			confirmButton: "Confirm this number" //true works fine too
 		});
