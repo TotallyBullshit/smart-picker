@@ -296,20 +296,13 @@
 						   "</div>",
 				select_mult: "<h4><%= text %></h4>"+
 						   "<div>"+
-							   "<select class='form-control' id='picker_selector'>"+
+							   "<select multiple class='form-control' id='picker_selector'>"+
 							   "<% _.each(options, function(opt) { %>"+
 							   		"<option value='<%= opt.value %>' "+
 							   		"<%= (opt.selected) ? 'selected' : '' %>"+
 							   		"><%= opt.name %></option>"+
 							   	"<% }); %>"+
 							   "</select>"+
-							   "<div id='listSelected'>"+
-							   "<% _.each(selected, function(opt) { %>"+
-							   		"<div class='selected'>"+
-							   		"<%= opt.name %></div>"+
-							   		"<div class='delete'>&times;</div>"+
-							   	"<% }); %>"+
-							   "</div>"+
 						   "</div>",
 				one_from_list: "<h4 align='center'><%= text %></h4>"+
 						   "<div>"+
@@ -321,6 +314,7 @@
 							   	"<% }); %>"+
 							   "</div>"+
 						   "</div>"
+						   /* TO DO - TURN THIS INTO A MULTI SELECT WITH SEARCH*/
 
 			},
 			functions: {
@@ -345,26 +339,10 @@
 						function() {
 							var value = content.find("#picker_selector").val();
 							var state = format_state(value);
-							
-							content.find("#listSelected").append("<div>"+value+"</div>");
+
 							events.trigger("onInteraction", state);
 
-							/* TO DO 
-							if(!_.isArray(_this.state.selected)) _this.state.selected = [];
-							_this.state.selected.push(value);
-							_this.state.selected = _.uniq(_this.state.selected);
-
-
-							var d = data;
-							d.selected.push({name: value, value: value});
-							d.selected = _.uniq(d.selected);
-
-							var temp = template.build(type, d);
-
-							console.log(temp);
-							/* TO DO */
-
-
+							/* TO DO - TURN THIS INTO A MULTI SELECT WITH SEARCH*/
 
 						});
 					},
