@@ -48,11 +48,33 @@ var picker = new Picker("geo", "my-geo", {});
 picker.show();</pre>
 
 	<h2>geoMult</h2>
-	<p></p>
+	<p>Selected Countries: <span id="result"></span></p>
 	<p><button class="button" id="button4">Show Picker</button></p>
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("geoMult", "my-geo-mult", {});
+var picker = new Picker("geoMult", "my-geo-mult", {
+	width: 500,
+	draggable: true,
+	confirmButton: "Select these countries",
+	onInteraction: function(data) {
+		var selected = data.selected;
+		var selected_text = "";
+		for (var i = 0, size=selected.length; i < size; i++) {
+			selected_text += selected[i].text;
+			if(i < size - 1) selected_text+= ", ";
+		};
+		$("#result").text(selected_text);
+	},
+	onSet: function(data) {
+		var selected = data.selected;
+		var selected_text = "";
+		for (var i = 0, size=selected.length; i < size; i++) {
+			selected_text += selected[i].text;
+			if(i < size - 1) selected_text+= ", ";
+		};
+		alert("You selected: "+selected_text);
+	}
+});
 picker.show();</pre>
 
 	<hr/>
@@ -66,7 +88,29 @@ picker.show();</pre>
 
 		var picker3 = new Picker("geo", "my-geo", {});
 
-		var picker4 = new Picker("geoMult", "my-geo-mult", {});
+		var picker4 = new Picker("geoMult", "my-geo-mult", {
+			width: 500,
+			draggable: true,
+			confirmButton: "Select these countries",
+			onInteraction: function(data) {
+				var selected = data.selected;
+				var selected_text = "";
+				for (var i = 0, size=selected.length; i < size; i++) {
+					selected_text += selected[i].text;
+					if(i < size - 1) selected_text+= ", ";
+				};
+				$("#result").text(selected_text);
+			},
+			onSet: function(data) {
+				var selected = data.selected;
+				var selected_text = "";
+				for (var i = 0, size=selected.length; i < size; i++) {
+					selected_text += selected[i].text;
+					if(i < size - 1) selected_text+= ", ";
+				};
+				alert("You selected: "+selected_text);
+			}
+		});
 
 		$("#button1").click(function() {
 			picker1.show();
