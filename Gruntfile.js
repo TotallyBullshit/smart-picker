@@ -15,7 +15,7 @@ module.exports = function (grunt) {
     var gruntConfig = {
         //simple watch task
         watch: {
-             files: [src_folder+'styles/*.scss',src_folder+'scripts/picker.js'],
+             files: [src_folder+'styles/*.scss',src_folder+'scripts/smart-picker.js'],
              tasks: ['build']
         },
         clean: {
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
 		uglify: {
 			dist: {
 				files: [
-					{src: dist_folder+'picker.js', dest: dist_folder+'picker.min.js'},
+					{src: dist_folder+'smart-picker.js', dest: dist_folder+'smart-picker.min.js'},
 				]
 			}
 		},
@@ -71,8 +71,8 @@ module.exports = function (grunt) {
         cssmin: {
             dist: {
                 files: {
-                    'dist/styles/picker.min.css': [
-                        src_folder+'styles/picker.css'
+                    'dist/styles/smart-picker.min.css': [
+                        src_folder+'styles/smart-picker.css'
                     ]
                 },
             }
@@ -89,7 +89,7 @@ module.exports = function (grunt) {
                         src: [
                             '*.{ico,png,txt}',
                             'images/{,*/}*.{gif,jpg,jpeg,png,svg,webp}',
-                            'styles/picker.css',
+                            'styles/smart-picker.css',
                             'styles/fonts/{,*/}*.*'
                         ]
                     }
@@ -103,7 +103,7 @@ module.exports = function (grunt) {
                         cwd: src_folder+'scripts/',
                         dest: dist_folder,
                         src: [
-                            'picker.js'
+                            'smart-picker.js'
                         ]
                     }
                 ]

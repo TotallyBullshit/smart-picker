@@ -5,23 +5,23 @@
 	<title>Testing pickers</title>
 
 	<!-- Just a basic CSS for the test page -->
-	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+	<link rel="stylesheet" type="text/css" href="../dist/styles/smart-picker.css">
 
 	<!-- Just a basic CSS for the test page -->
 	<link rel="stylesheet" type="text/css" href="test.css">
 
 	<!-- Personalized CSS for the picker-->
-	<link rel="stylesheet" type="text/css" href="picker.css">
+	<link rel="stylesheet" type="text/css" href="smart-picker.css">
 
 	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
 	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
-	<script type="text/javascript" src="../dist/picker.js"></script>
+	<script type="text/javascript" src="../dist/smart-picker.js"></script>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
 <body>
 
-	<h1>Test #1 - Simple Picker</h1>
+	<h1>Test #1 - Simple smartPicker</h1>
 
 	<p>This is supposed to just open a modal window with a simple picker</p>
 	<p>Click on the button below to see in action and click outside to close the picker</p>
@@ -30,13 +30,13 @@
 	<hr/>
 	<h3>Usage:</h3>
 	<pre>
-var my_picker = new Picker("regular", "my-picker", {});
+var my_picker = new smartPicker("regular", "my-picker", {});
 $("#button").click(function() {
 	my_picker.show();
 });</pre>
 	<h2>Format:</h2>
-	<p>Picker needs a type (string), an id for the new element (string), and a few extra options (object), as follows:</p>
-	<pre>new Picker([type], [id], [options]);</pre>
+	<p>smartPicker needs a type (string), an id for the new element (string), and a few extra options (object), as follows:</p>
+	<pre>new smartPicker([type], [id], [options]);</pre>
 
 	<hr/>
 	<p><a id="menu_test">Menu</a></p>
@@ -44,7 +44,7 @@ $("#button").click(function() {
 	<script>
 
 		$("#button").click(function() {
-			var my_picker = new Picker("regular", "my-picker", {});
+			var my_picker = new smartPicker("regular", "my-picker", {});
 			my_picker.show();
 		});
 

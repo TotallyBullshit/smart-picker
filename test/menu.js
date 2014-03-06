@@ -33,7 +33,7 @@ for (var i = 0, size = tests.length; i < size; i++) {
 }
 
 $("#menu").click(function() {
-	var picker = new Picker("regularList", "menuPicker", {
+	var picker = new smartPicker("regularList", "menuPicker", {
 		contentData: menu_data,
 		closeButton: true,
 		transition: 'fade',
@@ -48,7 +48,7 @@ $("#menu").click(function() {
 });
 
 $("#menu_test").click(function() {
-	var picker = new Picker("regularList", "menuPicker", {
+	var picker = new smartPicker("regularList", "menuPicker", {
 		contentData: menu_data,
 		closeButton: true,
 		transition: 'slideLeft',

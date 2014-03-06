@@ -1,25 +1,25 @@
-//	Pickers js 1.0.0
+//	Smart Picker 1.0.0
 //  (c) 2014 Gapminder Foundation
 
-//encapsulating Pickers
-(function(root, picker_factory) {
+//encapsulating smartPickers
+(function(root, factory) {
   //support for AMD modules
   if (typeof define === 'function' && define.amd) {
     define(['underscore', 'jquery'], function(_, $) {
     	//if using AMD module, do not export as global
-        var Picker = picker_factory(root, _, $);
-        return Picker;
+        var smartPicker = factory(root, _, $);
+        return smartPicker;
     });
   } 
   else {
   	//if there's no support, export as global
-    root.Picker = picker_factory(root, root._, (root.jQuery || root.Zepto || root.$));
+    root.smartPicker = factory(root, root._, (root.jQuery || root.Zepto || root.$));
   }
 
 }(this, function(root, _, $) {
 
 	//actual picker plugin
-	var Picker = function(type, id, options) {
+	var smartPicker = function(type, id, options) {
 
 		var _this = this; //save local pointer
 
@@ -322,7 +322,7 @@
 			/*
 			 * build specific content for each picker
 			 * - type is a string (e.g: "geo" )
-			 * - data is an object (e.g: { title: "Picker"} )
+			 * - data is an object (e.g: { title: "smartPicker"} )
 			 * - template is an underscore template
 			 * - apply is a function to be executed after the template
 			 *   is parsed
@@ -798,7 +798,7 @@
 		//===================== HELPFUL FUNCTIONS ======================
 
 		function throw_msg (msg) {
-			console.log("Picker: "+msg);
+			console.log("smartPicker: "+msg);
 		}
 
 		function turn_draggable(element) {
@@ -893,7 +893,7 @@
 		return _this;
 	};
 
-	return Picker;
+	return smartPicker;
 
 	//================= HELPER FUNCTIONS =================
 
