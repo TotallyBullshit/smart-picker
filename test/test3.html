@@ -5,17 +5,17 @@
 	<title>Testing pickers</title>
 
 	<!-- Just a basic CSS for the test page -->
-	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+	<link rel="stylesheet" type="text/css" href="../dist/styles/smart-picker.css">
 
 	<!-- Just a basic CSS for the test page -->
 	<link rel="stylesheet" type="text/css" href="test.css">
 
 	<!-- Personalized CSS for the picker-->
-	<link rel="stylesheet" type="text/css" href="picker.css">
+	<link rel="stylesheet" type="text/css" href="smart-picker.css">
 
 	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
 	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
-	<script type="text/javascript" src="../dist/picker.js"></script>
+	<script type="text/javascript" src="../dist/smart-picker.js"></script>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
@@ -29,7 +29,7 @@
 
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-picker", {
+var picker = new smartPicker("regular", "my-picker", {
 	top: 300,
 	width: '600px'
 });
@@ -43,7 +43,7 @@ picker.show();</pre>
 
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-picker", {
+var picker = new smartPicker("regular", "my-picker", {
 	transition: 'fade'
 });
 picker.show();</pre>
@@ -54,7 +54,7 @@ picker.show();</pre>
 
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-picker", {
+var picker = new smartPicker("regular", "my-picker", {
 	closeButton: true,
 	confirmButton: "Confirm here", //any string or boolean values
 });
@@ -66,7 +66,7 @@ picker.show();</pre>
 
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-picker", {
+var picker = new smartPicker("regular", "my-picker", {
 	clickOverlay: false
 });
 picker.show();</pre>
@@ -77,18 +77,7 @@ picker.show();</pre>
 
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-picker", {
-	clickOverlay: false
-});
-picker.show();</pre>
-
-	<h2>Drag it!</h2>
-	<p>You can have draggable modals too...</p>
-	<p><button class="button" id="button5">Drag modal</button> <button class="button" id="button6">Drag picker (not modal)</button></p>
-
-	<h3>Usage:</h3>
-	<pre>
-var picker = new Picker("regular", "my-picker", {
+var picker = new smartPicker("regular", "my-picker", {
 	clickOverlay: false
 });
 picker.show();</pre>
@@ -98,30 +87,30 @@ picker.show();</pre>
 	
 	<script>
 
-		var picker1 = new Picker("regular", "my-picker1", {
+		var picker1 = new smartPicker("regular", "my-picker1", {
 			top: 300,
 			width: '600px'
 		});
 
-		var picker2 = new Picker("regular", "my-picker2", {
+		var picker2 = new smartPicker("regular", "my-picker2", {
 			transition: 'fade'
 		});
 
-		var picker3 = new Picker("regular", "my-picker3", {
+		var picker3 = new smartPicker("regular", "my-picker3", {
 			closeButton: true,
 			confirmButton: "Confirmation Picker", //any string or boolean values
 		});
 
-		var picker4 = new Picker("regular", "my-picker4", {
+		var picker4 = new smartPicker("regular", "my-picker4", {
 			clickOverlay: false,
 			closeButton: true
 		});
 
-		var picker5 = new Picker("regular", "my-picker5", {
+		var picker5 = new smartPicker("regular", "my-picker5", {
 			draggable: true
 		});
 
-		var picker6 = new Picker("regular", "my-picker6", {
+		var picker6 = new smartPicker("regular", "my-picker6", {
 			transition: 'fade',
 			draggable: true,
 			modal: false,

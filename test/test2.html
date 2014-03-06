@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Testing pickers</title>
+	<title>Testing smartPicker</title>
 
 	<!-- Just a basic CSS for the test page -->
-	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+	<link rel="stylesheet" type="text/css" href="../dist/styles/smart-picker.css">
 
 	<!-- Just a basic CSS for the test page -->
 	<link rel="stylesheet" type="text/css" href="test.css">
 
 	<!-- Personalized CSS for the picker-->
-	<link rel="stylesheet" type="text/css" href="picker.css">
+	<link rel="stylesheet" type="text/css" href="smart-picker.css">
 
 	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
 	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
-	<script type="text/javascript" src="../dist/picker.js"></script>
+	<script type="text/javascript" src="../dist/smart-picker.js"></script>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
@@ -29,7 +29,7 @@
 
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-picker", {
+var picker = new smartPicker("regular", "my-picker", {
 	beforeShow: function() {
 		alert("This happens before the picker is created");
 	}
@@ -44,7 +44,7 @@ picker.show();</pre>
 
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-picker", {
+var picker = new smartPicker("regular", "my-picker", {
 	onInteraction: function(data) {
 		$("#result").html(data.selected);
 	}
@@ -57,7 +57,7 @@ picker.show();</pre>
 
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-picker", {
+var picker = new smartPicker("regular", "my-picker", {
 	onSet: function(data) {
 		$("#result").html(data.selected);
 	},
@@ -71,7 +71,7 @@ picker.show();</pre>
 
 		<h3>Usage:</h3>
 		<pre>
-var picker = new Picker("regularList", "my-picker", {
+var picker = new smartPicker("regularList", "my-picker", {
 	onInteraction: function(data) {
 		$("#result").html(data.selected);
 	},
@@ -87,26 +87,26 @@ picker.show();</pre>
 	
 	<script>
 
-		var picker1 = new Picker("regular", "my-picker1", {
+		var picker1 = new smartPicker("regular", "my-picker1", {
 			beforeShow: function() {
 				alert("This happens before the picker is created");
 			}
 		});
 
-		var picker2 = new Picker("regular", "my-picker2", {
+		var picker2 = new smartPicker("regular", "my-picker2", {
 			onInteraction: function(data) {
 				$("#result2").html(data.selected);
 			}
 		});
 
-		var picker3 = new Picker("regular", "my-picker3", {
+		var picker3 = new smartPicker("regular", "my-picker3", {
 			onSet: function(data) {
 				$("#result3").html(data.selected);
 			},
 			confirmButton: "Confirm this number" //true works fine too
 		});
 
-		var picker4 = new Picker("regularList", "my-picker4", {
+		var picker4 = new smartPicker("regularList", "my-picker4", {
 			onInteraction: function(data) {
 				$("#result4").html(data.selected);
 			},

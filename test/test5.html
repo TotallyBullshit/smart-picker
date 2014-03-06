@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Testing pickers</title>
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="../dist/styles/smart-picker.css">
+
+	<!-- Just a basic CSS for the test page -->
+	<link rel="stylesheet" type="text/css" href="test.css">
+
+	<!-- Personalized CSS for the picker-->
+	<link rel="stylesheet" type="text/css" href="smart-picker.css">
+
+	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
+	<script type="text/javascript" src="../dist/smart-picker.js"></script>
+
+	<script src="http://d3js.org/d3.v3.js" charset="UTF-8"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+
+	<h1>Test #5 - World Map</h1>
+
+	<h2>Color the map based on picker</h2>
+	<p>Click on the button below to select countries. In this example, we can clearly see the difference between onInteraction and onSet</p>
+	<p><button class="button" id="button1">Select Countries</button></p>
+
+	<div id="map">
+	    <svg width="100%" height="450px"></svg>
+	</div>
+
+	<script>
+	    var mapJSON = d3.json('http://vizabi-dev.gapminder.org.s3.amazonaws.com/data/bubble_map/world-countries.json', function(json) {
+	        var map = d3.geo.equirectangular();
+	        var path = d3.geo.path().projection(map);
+
+	        map.scale(125);
+	        map.translate([400, 250])
+
+	        d3.select('svg').selectAll('path')
+	            .data(json.features)
+	            .enter()
+	            .append('path')
+	            .attr('d', function (d) { return path(d); })
+	            .attr('fill', function(d) {
+	                return '#f2f2f2';
+	            });
+	    });
+	</script>
+
+	<h3>Usage:</h3>
+	<pre>
+var picker = new smartPicker("geoMult", "my-geo-mult", {
+	width: 500,
+	confirmButton: "Select these countries",
+	onInteraction: function(data) {
+		var vals = getValues(data.selected);
+
+		d3.select('svg').selectAll('path').attr('fill', function(d) {
+			if(vals.indexOf(d.id) !== -1) return '#ccc';
+            else return '#f2f2f2';
+        });
+	},
+	onSet: function(data) {
+		var vals = getValues(data.selected);
+
+		d3.select('svg').selectAll('path').attr('fill', function(d) {
+			if(vals.indexOf(d.id) !== -1) return '#db4334';
+			else return '#f2f2f2';
+        });
+	}
+});
+picker.show();</pre>
+
+	<hr/>
+	<p><a  id="menu_test">Menu</a></p>
+	
+	<script>
+
+		var picker = new smartPicker("geoMult", "my-geo-mult", {
+			width: 500,
+			clickOverlay: false,
+			draggable: true,
+			confirmButton: "Select these countries",
+			onInteraction: function(data) {
+				var vals = getValues(data.selected);
+
+				d3.select('svg').selectAll('path').attr('fill', function(d) {
+					if(vals.indexOf(d.id) !== -1) return '#ccc';
+	                else return '#f2f2f2';
+	            });
+			},
+			onSet: function(data) {
+				var vals = getValues(data.selected);
+
+				d3.select('svg').selectAll('path').attr('fill', function(d) {
+					if(vals.indexOf(d.id) !== -1) return '#db4334';
+					else return '#f2f2f2';
+	            });
+			}
+		});
+
+		$("#button1").click(function() {
+			picker.show();
+		});
+
+		function getValues(selected) {
+			var vals =[];
+			if(selected === undefined) return vals;
+			for (var i = 0, size = selected.length; i < size; i++) {
+				vals.push(selected[i].value);
+			};
+			return vals;
+		}
+
+	</script>
+
+
+	<script type="text/javascript" src="menu.js"></script>
+
+</body>
+</html>

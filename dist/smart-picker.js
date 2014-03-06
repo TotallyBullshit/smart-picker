@@ -1,25 +1,25 @@
-//	Pickers js 1.0.0
+//	Smart Picker 1.0.0
 //  (c) 2014 Gapminder Foundation
 
-//encapsulating Pickers
-(function(root, picker_factory) {
+//encapsulating smartPickers
+(function(root, factory) {
   //support for AMD modules
   if (typeof define === 'function' && define.amd) {
     define(['underscore', 'jquery'], function(_, $) {
     	//if using AMD module, do not export as global
-        var Picker = picker_factory(root, _, $);
-        return Picker;
+        var smartPicker = factory(root, _, $);
+        return smartPicker;
     });
   } 
   else {
   	//if there's no support, export as global
-    root.Picker = picker_factory(root, root._, (root.jQuery || root.Zepto || root.$));
+    root.smartPicker = factory(root, root._, (root.jQuery || root.Zepto || root.$));
   }
 
 }(this, function(root, _, $) {
 
 	//actual picker plugin
-	var Picker = function(type, id, options) {
+	var smartPicker = function(type, id, options) {
 
 		var _this = this; //save local pointer
 
@@ -155,7 +155,159 @@
 		};
 
 		var dataMan = {
-			countries: [{value:"", name: "Choose...", selected: true},{name:'Afghanistan',value:'AF'},{name:'ÅlandIslands',value:'AX'},{name:'Albania',value:'AL'},{name:'Algeria',value:'DZ'},{name:'AmericanSamoa',value:'AS'},{name:'AndorrA',value:'AD'},{name:'Angola',value:'AO'},{name:'Anguilla',value:'AI'},{name:'Antarctica',value:'AQ'},{name:'AntiguaandBarbuda',value:'AG'},{name:'Argentina',value:'AR'},{name:'Armenia',value:'AM'},{name:'Aruba',value:'AW'},{name:'Australia',value:'AU'},{name:'Austria',value:'AT'},{name:'Azerbaijan',value:'AZ'},{name:'Bahamas',value:'BS'},{name:'Bahrain',value:'BH'},{name:'Bangladesh',value:'BD'},{name:'Barbados',value:'BB'},{name:'Belarus',value:'BY'},{name:'Belgium',value:'BE'},{name:'Belize',value:'BZ'},{name:'Benin',value:'BJ'},{name:'Bermuda',value:'BM'},{name:'Bhutan',value:'BT'},{name:'Bolivia',value:'BO'},{name:'BosniaandHerzegovina',value:'BA'},{name:'Botswana',value:'BW'},{name:'BouvetIsland',value:'BV'},{name:'Brazil',value:'BR'},{name:'BritishIndianOceanTerritory',value:'IO'},{name:'BruneiDarussalam',value:'BN'},{name:'Bulgaria',value:'BG'},{name:'BurkinaFaso',value:'BF'},{name:'Burundi',value:'BI'},{name:'Cambodia',value:'KH'},{name:'Cameroon',value:'CM'},{name:'Canada',value:'CA'},{name:'CapeVerde',value:'CV'},{name:'CaymanIslands',value:'KY'},{name:'CentralAfricanRepublic',value:'CF'},{name:'Chad',value:'TD'},{name:'Chile',value:'CL'},{name:'China',value:'CN'},{name:'ChristmasIsland',value:'CX'},{name:'Cocos(Keeling)Islands',value:'CC'},{name:'Colombia',value:'CO'},{name:'Comoros',value:'KM'},{name:'Congo',value:'CG'},{name:'Congo,TheDemocraticRepublicofthe',value:'CD'},{name:'CookIslands',value:'CK'},{name:'CostaRica',value:'CR'},{name:'CoteD\'Ivoire',value:'CI'},{name:'Croatia',value:'HR'},{name:'Cuba',value:'CU'},{name:'Cyprus',value:'CY'},{name:'CzechRepublic',value:'CZ'},{name:'Denmark',value:'DK'},{name:'Djibouti',value:'DJ'},{name:'Dominica',value:'DM'},{name:'DominicanRepublic',value:'DO'},{name:'Ecuador',value:'EC'},{name:'Egypt',value:'EG'},{name:'ElSalvador',value:'SV'},{name:'EquatorialGuinea',value:'GQ'},{name:'Eritrea',value:'ER'},{name:'Estonia',value:'EE'},{name:'Ethiopia',value:'ET'},{name:'FalklandIslands(Malvinas)',value:'FK'},{name:'FaroeIslands',value:'FO'},{name:'Fiji',value:'FJ'},{name:'Finland',value:'FI'},{name:'France',value:'FR'},{name:'FrenchGuiana',value:'GF'},{name:'FrenchPolynesia',value:'PF'},{name:'FrenchSouthernTerritories',value:'TF'},{name:'Gabon',value:'GA'},{name:'Gambia',value:'GM'},{name:'Georgia',value:'GE'},{name:'Germany',value:'DE'},{name:'Ghana',value:'GH'},{name:'Gibraltar',value:'GI'},{name:'Greece',value:'GR'},{name:'Greenland',value:'GL'},{name:'Grenada',value:'GD'},{name:'Guadeloupe',value:'GP'},{name:'Guam',value:'GU'},{name:'Guatemala',value:'GT'},{name:'Guernsey',value:'GG'},{name:'Guinea',value:'GN'},{name:'Guinea-Bissau',value:'GW'},{name:'Guyana',value:'GY'},{name:'Haiti',value:'HT'},{name:'HeardIslandandMcdonaldIslands',value:'HM'},{name:'HolySee(VaticanCityState)',value:'VA'},{name:'Honduras',value:'HN'},{name:'HongKong',value:'HK'},{name:'Hungary',value:'HU'},{name:'Iceland',value:'IS'},{name:'India',value:'IN'},{name:'Indonesia',value:'ID'},{name:'Iran,IslamicRepublicOf',value:'IR'},{name:'Iraq',value:'IQ'},{name:'Ireland',value:'IE'},{name:'IsleofMan',value:'IM'},{name:'Israel',value:'IL'},{name:'Italy',value:'IT'},{name:'Jamaica',value:'JM'},{name:'Japan',value:'JP'},{name:'Jersey',value:'JE'},{name:'Jordan',value:'JO'},{name:'Kazakhstan',value:'KZ'},{name:'Kenya',value:'KE'},{name:'Kiribati',value:'KI'},{name:'Korea,DemocraticPeople\'SRepublicof',value:'KP'},{name:'Korea,Republicof',value:'KR'},{name:'Kuwait',value:'KW'},{name:'Kyrgyzstan',value:'KG'},{name:'LaoPeople\'SDemocraticRepublic',value:'LA'},{name:'Latvia',value:'LV'},{name:'Lebanon',value:'LB'},{name:'Lesotho',value:'LS'},{name:'Liberia',value:'LR'},{name:'LibyanArabJamahiriya',value:'LY'},{name:'Liechtenstein',value:'LI'},{name:'Lithuania',value:'LT'},{name:'Luxembourg',value:'LU'},{name:'Macao',value:'MO'},{name:'Macedonia,TheFormerYugoslavRepublicof',value:'MK'},{name:'Madagascar',value:'MG'},{name:'Malawi',value:'MW'},{name:'Malaysia',value:'MY'},{name:'Maldives',value:'MV'},{name:'Mali',value:'ML'},{name:'Malta',value:'MT'},{name:'MarshallIslands',value:'MH'},{name:'Martinique',value:'MQ'},{name:'Mauritania',value:'MR'},{name:'Mauritius',value:'MU'},{name:'Mayotte',value:'YT'},{name:'Mexico',value:'MX'},{name:'Micronesia,FederatedStatesof',value:'FM'},{name:'Moldova,Republicof',value:'MD'},{name:'Monaco',value:'MC'},{name:'Mongolia',value:'MN'},{name:'Montserrat',value:'MS'},{name:'Morocco',value:'MA'},{name:'Mozambique',value:'MZ'},{name:'Myanmar',value:'MM'},{name:'Namibia',value:'NA'},{name:'Nauru',value:'NR'},{name:'Nepal',value:'NP'},{name:'Netherlands',value:'NL'},{name:'NetherlandsAntilles',value:'AN'},{name:'NewCaledonia',value:'NC'},{name:'NewZealand',value:'NZ'},{name:'Nicaragua',value:'NI'},{name:'Niger',value:'NE'},{name:'Nigeria',value:'NG'},{name:'Niue',value:'NU'},{name:'NorfolkIsland',value:'NF'},{name:'NorthernMarianaIslands',value:'MP'},{name:'Norway',value:'NO'},{name:'Oman',value:'OM'},{name:'Pakistan',value:'PK'},{name:'Palau',value:'PW'},{name:'PalestinianTerritory,Occupied',value:'PS'},{name:'Panama',value:'PA'},{name:'PapuaNewGuinea',value:'PG'},{name:'Paraguay',value:'PY'},{name:'Peru',value:'PE'},{name:'Philippines',value:'PH'},{name:'Pitcairn',value:'PN'},{name:'Poland',value:'PL'},{name:'Portugal',value:'PT'},{name:'PuertoRico',value:'PR'},{name:'Qatar',value:'QA'},{name:'Reunion',value:'RE'},{name:'Romania',value:'RO'},{name:'RussianFederation',value:'RU'},{name:'RWANDA',value:'RW'},{name:'SaintHelena',value:'SH'},{name:'SaintKittsandNevis',value:'KN'},{name:'SaintLucia',value:'LC'},{name:'SaintPierreandMiquelon',value:'PM'},{name:'SaintVincentandtheGrenadines',value:'VC'},{name:'Samoa',value:'WS'},{name:'SanMarino',value:'SM'},{name:'SaoTomeandPrincipe',value:'ST'},{name:'SaudiArabia',value:'SA'},{name:'Senegal',value:'SN'},{name:'SerbiaandMontenegro',value:'CS'},{name:'Seychelles',value:'SC'},{name:'SierraLeone',value:'SL'},{name:'Singapore',value:'SG'},{name:'Slovakia',value:'SK'},{name:'Slovenia',value:'SI'},{name:'SolomonIslands',value:'SB'},{name:'Somalia',value:'SO'},{name:'SouthAfrica',value:'ZA'},{name:'SouthGeorgiaandtheSouthSandwichIslands',value:'GS'},{name:'Spain',value:'ES'},{name:'SriLanka',value:'LK'},{name:'Sudan',value:'SD'},{name:'Suriname',value:'SR'},{name:'SvalbardandJanMayen',value:'SJ'},{name:'Swaziland',value:'SZ'},{name:'Sweden',value:'SE'},{name:'Switzerland',value:'CH'},{name:'SyrianArabRepublic',value:'SY'},{name:'Taiwan,ProvinceofChina',value:'TW'},{name:'Tajikistan',value:'TJ'},{name:'Tanzania,UnitedRepublicof',value:'TZ'},{name:'Thailand',value:'TH'},{name:'Timor-Leste',value:'TL'},{name:'Togo',value:'TG'},{name:'Tokelau',value:'TK'},{name:'Tonga',value:'TO'},{name:'TrinidadandTobago',value:'TT'},{name:'Tunisia',value:'TN'},{name:'Turkey',value:'TR'},{name:'Turkmenistan',value:'TM'},{name:'TurksandCaicosIslands',value:'TC'},{name:'Tuvalu',value:'TV'},{name:'Uganda',value:'UG'},{name:'Ukraine',value:'UA'},{name:'UnitedArabEmirates',value:'AE'},{name:'UnitedKingdom',value:'GB'},{name:'UnitedStates',value:'US'},{name:'UnitedStatesMinorOutlyingIslands',value:'UM'},{name:'Uruguay',value:'UY'},{name:'Uzbekistan',value:'UZ'},{name:'Vanuatu',value:'VU'},{name:'Venezuela',value:'VE'},{name:'VietNam',value:'VN'},{name:'VirginIslands,British',value:'VG'},{name:'VirginIslands,U.S.',value:'VI'},{name:'WallisandFutuna',value:'WF'},{name:'WesternSahara',value:'EH'},{name:'Yemen',value:'YE'},{name:'Zambia',value:'ZM'},{name:'Zimbabwe',value:'ZW'}],
+			countries: [
+		        {value: "AFG", name: "Afghanistan"},
+		        {value: "ALB", name: "Albania"},
+		        {value: "DZA", name: "Algeria"},
+		        {value: "AGO", name: "Angola"},
+		        {value: "ARG", name: "Argentina"},
+		        {value: "ARM", name: "Armenia"},
+		        {value: "AUS", name: "Australia"},
+		        {value: "AUT", name: "Austria"},
+		        {value: "AZE", name: "Azerbaijan"},
+		        {value: "BHS", name: "Bahamas"},
+		        {value: "BGD", name: "Bangladesh"},
+		        {value: "BRB", name: "Barbados"},
+		        {value: "BLR", name: "Belarus"},
+		        {value: "BEL", name: "Belgium"},
+		        {value: "BEN", name: "Benin"},
+		        {value: "BOL", name: "Bolivia"},
+		        {value: "BWA", name: "Botswana"},
+		        {value: "BRA", name: "Brazil"},
+		        {value: "BGR", name: "Bulgaria"},
+		        {value: "BFA", name: "Burkina Faso"},
+		        {value: "BDI", name: "Burundi"},
+		        {value: "KHM", name: "Cambodia"},
+		        {value: "CMR", name: "Cameroon"},
+		        {value: "CAN", name: "Canada"},
+		        {value: "CAF", name: "Central African Republic"},
+		        {value: "TCD", name: "Chad"},
+		        {value: "CHL", name: "Chile"},
+		        {value: "CHN", name: "China"},
+		        {value: "COL", name: "Colombia"},
+		        {value: "COM", name: "Comoros"},
+		        {value: "COD", name: "Congo [DRC]"},
+		        {value: "COG", name: "Congo [Republic]"},
+		        {value: "CRI", name: "Costa Rica"},
+		        {value: "HRV", name: "Croatia"},
+		        {value: "CUB", name: "Cuba"},
+		        {value: "CZE", name: "Czech Republic"},
+		        {value: "DNK", name: "Denmark"},
+		        {value: "DJI", name: "Djibouti"},
+		        {value: "DOM", name: "Dominican Republic"},
+		        {value: "ECU", name: "Ecuador"},
+		        {value: "EGY", name: "Egypt"},
+		        {value: "SLV", name: "El Salvador"},
+		        {value: "EST", name: "Estonia"},
+		        {value: "ETH", name: "Ethiopia"},
+		        {value: "FJI", name: "Fiji"},
+		        {value: "FIN", name: "Finland"},
+		        {value: "FRA", name: "France"},
+		        {value: "GAB", name: "Gabon"},
+		        {value: "GMB", name: "Gambia"},
+		        {value: "GEO", name: "Georgia"},
+		        {value: "DEU", name: "Germany"},
+		        {value: "GHA", name: "Ghana"},
+		        {value: "GRC", name: "Greece"},
+		        {value: "GTM", name: "Guatemala"},
+		        {value: "GIN", name: "Guinea"},
+		        {value: "GNB", name: "Guinea-Bissau"},
+		        {value: "GUY", name: "Guyana"},
+		        {value: "HTI", name: "Haiti"},
+		        {value: "HND", name: "Honduras"},
+		        {value: "HKG", name: "Hong Kong"},
+		        {value: "HUN", name: "Hungary"},
+		        {value: "IND", name: "India"},
+		        {value: "IDN", name: "Indonesia"},
+		        {value: "IRN", name: "Iran"},
+		        {value: "IRQ", name: "Iraq"},
+		        {value: "IRL", name: "Ireland"},
+		        {value: "ISR", name: "Israel"},
+		        {value: "ITA", name: "Italy"},
+		        {value: "CIV", name: "Ivory Coast"},
+		        {value: "JAM", name: "Jamaica"},
+		        {value: "JPN", name: "Japan"},
+		        {value: "JOR", name: "Jordan"},
+		        {value: "KAZ", name: "Kazakhstan"},
+		        {value: "KEN", name: "Kenya"},
+		        {value: "KGZ", name: "Kyrgyzstan"},
+		        {value: "LAO", name: "Laos"},
+		        {value: "LVA", name: "Latvia"},
+		        {value: "LBN", name: "Lebanon"},
+		        {value: "LSO", name: "Lesotho"},
+		        {value: "LTU", name: "Lithuania"},
+		        {value: "LUX", name: "Luxembourg"},
+		        {value: "MKD", name: "Macedonia [FYROM]"},
+		        {value: "MDG", name: "Madagascar"},
+		        {value: "MWI", name: "Malawi"},
+		        {value: "MYS", name: "Malaysia"},
+		        {value: "MLI", name: "Mali"},
+		        {value: "MRT", name: "Mauritania"},
+		        {value: "MUS", name: "Mauritius"},
+		        {value: "MEX", name: "Mexico"},
+		        {value: "MDA", name: "Moldova"},
+		        {value: "MNG", name: "Mongolia"},
+		        {value: "MAR", name: "Morocco"},
+		        {value: "MOZ", name: "Mozambique"},
+		        {value: "MMR", name: "Myanmar [Burma]"},
+		        {value: "NAM", name: "Namibia"},
+		        {value: "NPL", name: "Nepal"},
+		        {value: "NLD", name: "Netherlands"},
+		        {value: "NZL", name: "New Zealand"},
+		        {value: "NIC", name: "Nicaragua"},
+		        {value: "NER", name: "Niger"},
+		        {value: "NGA", name: "Nigeria"},
+		        {value: "NOR", name: "Norway"},
+		        {value: "PAK", name: "Pakistan"},
+		        {value: "PAN", name: "Panama"},
+		        {value: "PNG", name: "Papua New Guinea"},
+		        {value: "PRY", name: "Paraguay"},
+		        {value: "PER", name: "Peru"},
+		        {value: "PHL", name: "Philippines"},
+		        {value: "POL", name: "Poland"},
+		        {value: "PRT", name: "Portugal"},
+		        {value: "PRI", name: "Puerto Rico"},
+		        {value: "ROU", name: "Romania"},
+		        {value: "RUS", name: "Russia"},
+		        {value: "RWA", name: "Rwanda"},
+		        {value: "SEN", name: "Senegal"},
+		        {value: "SRB", name: "Serbia"},
+		        {value: "SYC", name: "Seychelles"},
+		        {value: "SLE", name: "Sierra Leone"},
+		        {value: "SGP", name: "Singapore"},
+		        {value: "SVK", name: "Slovakia"},
+		        {value: "SVN", name: "Slovenia"},
+		        {value: "SOM", name: "Somalia"},
+		        {value: "ZAF", name: "South Africa"},
+		        {value: "KOR", name: "South Korea"},
+		        {value: "ESP", name: "Spain"},
+		        {value: "LKA", name: "Sri Lanka"},
+		        {value: "SDN", name: "Sudan"},
+		        {value: "SUR", name: "Suriname"},
+		        {value: "SWE", name: "Sweden"},
+		        {value: "CHE", name: "Switzerland"},
+		        {value: "SYR", name: "Syria"},
+		        {value: "TWN", name: "Taiwan"},
+		        {value: "TJK", name: "Tajikistan"},
+		        {value: "TZA", name: "Tanzania"},
+		        {value: "THA", name: "Thailand"},
+		        {value: "TGO", name: "Togo"},
+		        {value: "TTO", name: "Trinidad and Tobago"},
+		        {value: "TUN", name: "Tunisia"},
+		        {value: "TUR", name: "Turkey"},
+		        {value: "TKM", name: "Turkmenistan"},
+		        {value: "UGA", name: "Uganda"},
+		        {value: "UKR", name: "Ukraine"},
+		        {value: "GBR", name: "United Kingdom"},
+		        {value: "USA", name: "United States"},
+		        {value: "URY", name: "Uruguay"},
+		        {value: "UZB", name: "Uzbekistan"},
+		        {value: "VEN", name: "Venezuela"},
+		        {value: "VNM", name: "Vietnam"},
+		        {value: "YEM", name: "Yemen"},
+		        {value: "ZMB", name: "Zambia"},
+		        {value: "ZWE", name: "Zimbabwe"}
+		    ]
 
 		}
 
@@ -170,7 +322,7 @@
 			/*
 			 * build specific content for each picker
 			 * - type is a string (e.g: "geo" )
-			 * - data is an object (e.g: { title: "Picker"} )
+			 * - data is an object (e.g: { title: "smartPicker"} )
 			 * - template is an underscore template
 			 * - apply is a function to be executed after the template
 			 *   is parsed
@@ -188,28 +340,6 @@
 
 						typeTemplate = this.templates['select_one'];
 						typePostRender = this.functions['select_one'];
-						
-						break;
-
-					case "language":
-						data = _.extend({
-							text: "Pick your language",
-							options: dataMan.languages
-						}, data);
-
-						typeTemplate = this.templates['select_one'];
-						typePostRender = this.functions['select_one'];
-						
-						break;
-
-					case "search":
-						data = _.extend({
-							text: "Search here",
-							options: dataMan.languages
-						}, data);
-
-						typeTemplate = this.templates['single_input'];
-						typePostRender = this.functions['single_input'];
 						
 						break;
 
@@ -284,25 +414,22 @@
 							   	"<% }); %>"+
 							   "</select>"+
 						   "</div>",
-				single_input: "<h4><%= text %></h4>"+
-						   "<div>"+
-							   "<select class='form-control' id='picker_selector'>"+
-							   "<% _.each(options, function(opt) { %>"+
-							   		"<option value='<%= opt.value %>' "+
-							   		"<%= (opt.selected) ? 'selected' : '' %>"+
-							   		"><%= opt.name %></option>"+
-							   	"<% }); %>"+
-							   "</select>"+
-						   "</div>",
 				select_mult: "<h4><%= text %></h4>"+
 						   "<div>"+
-							   "<select multiple class='form-control' id='picker_selector'>"+
+							   "<select id='picker_selector' class='form-control' multiple='multiple'>"+
 							   "<% _.each(options, function(opt) { %>"+
 							   		"<option value='<%= opt.value %>' "+
 							   		"<%= (opt.selected) ? 'selected' : '' %>"+
 							   		"><%= opt.name %></option>"+
 							   	"<% }); %>"+
 							   "</select>"+
+							   "<div id='listSelected'>"+
+							   "<% _.each(selected, function(opt) { %>"+
+							   		"<div class='selected'>"+
+							   		"<%= opt.name %></div>"+
+							   		"<div class='delete'>&times;</div>"+
+							   	"<% }); %>"+
+							   "</div>"+
 						   "</div>",
 				one_from_list: "<h4 align='center'><%= text %></h4>"+
 						   "<div>"+
@@ -314,38 +441,32 @@
 							   	"<% }); %>"+
 							   "</div>"+
 						   "</div>"
-						   /* TO DO - TURN THIS INTO A MULTI SELECT WITH SEARCH*/
 
 			},
 			functions: {
 				select_one: function(content) {
-						content.find("#picker_selector").on("change",
-						function() {
-							var value = content.find("#picker_selector").val();
-							set_state(value);
-							events.trigger("onInteraction", get_state());
-						});
-					},
-				single_input: function(content) {
-						content.find("#picker_input").on("keydown",
-						function() {
-							var value = content.find("#picker_input").val();
-							set_state(value);
-							events.trigger("onInteraction", get_state());
-						});
-					},
+					content.find("#picker_selector").on("change",
+					function() {
+						var value = content.find("#picker_selector").val();
+						set_state(value);
+						events.trigger("onInteraction", get_state());
+					});
+				},
 				select_mult: function(content) {
-						content.find("#picker_selector").on("change",
-						function() {
-							var value = content.find("#picker_selector").val();
-							var state = format_state(value);
-
-							events.trigger("onInteraction", state);
-
-							/* TO DO - TURN THIS INTO A MULTI SELECT WITH SEARCH*/
-
-						});
-					},
+					var selectEl = content.find("#picker_selector");
+					selectMult(selectEl, {
+						onChange: function(selected) {
+							set_state(selected);
+							events.trigger("onInteraction", get_state());
+						},
+						onOpen: function() {
+							unbind_overlay_click();
+						},
+						onClose: function() {
+							bind_overlay_click();
+						}
+					});
+				},
 				one_from_list: function(content) {
 					var list = content.find("#picker_selector");
 					var buttons = list.find("button");
@@ -598,16 +719,33 @@
 			return elements;
 		}
 
+		function unbind_overlay_click() {
+			var elements = _this.elements;
+			if(elements === undefined) return;
+
+			if($.type(elements.overlay) !== 'undefined' && options.clickOverlay) {
+        		elements.overlay.unbind('click');
+        	}
+		}
+
+		function bind_overlay_click() {
+			var elements = _this.elements;
+			if(elements === undefined) return;
+			if($.type(elements.overlay) !== 'undefined' && options.clickOverlay) {
+        		elements.overlay.bind('click', function() {
+        			_this.hide();
+        		});
+        	}
+		}
+
 		function bind_actions() {
 
 			var elements = _this.elements;
 			if(elements === undefined) return;
 
-        	if($.type(elements.overlay) !== 'undefined' && options.clickOverlay) {
-        		elements.overlay.click(function() {
-        			_this.hide();
-        		});
-        	}
+			//bind overlay clicking
+        	bind_overlay_click();
+
         	//when you click a close button (any)
         	$(elements.picker).find('['+settings.picker_close_attr+']').click(function() {
         		_this.hide();
@@ -660,7 +798,7 @@
 		//===================== HELPFUL FUNCTIONS ======================
 
 		function throw_msg (msg) {
-			console.log("Picker: "+msg);
+			console.log("smartPicker: "+msg);
 		}
 
 		function turn_draggable(element) {
@@ -718,6 +856,11 @@
 			      top: newTop,
 			      left: newLeft
 			    });
+
+			    options.top = newTop;
+			    options.left = newLeft;
+			    options.bottom = 'auto';
+			    options.right = 'auto';
 		  	};
 		  	//stop listening to mouse move
 		  	var endDrag = function(event) {
@@ -750,5 +893,285 @@
 		return _this;
 	};
 
-	return Picker;
+	return smartPicker;
+
+	//================= HELPER FUNCTIONS =================
+
+	// selectMult
+	// This could even be a separate jQuery plugin, if we want to (possibly 
+	// useful for developers as a different project)
+
+	function selectMult(target, options) {   
+        var selectMultOrig = $(target);
+        //check if its a valid select
+        if(selectMultOrig.prop("tagName").toLowerCase() !== "select") {
+            return;
+        }
+        
+        //settings
+        var main_class = "select-mult";
+        var prefix = main_class + "-";
+        var settings = {
+            class_selected: prefix + "selected",
+            class_popup: prefix + "popup",
+            class_popup_visible: prefix + "open",
+            class_search_wrapper: prefix + "search-wrapper",
+            class_search: prefix + "search",
+            class_options_wrapper: prefix + "options-wrapper",
+            class_option: prefix + "option",
+            class_option_checked: prefix + "option-checked",
+            class_wrap_selected: prefix + "wrap",
+            class_mobile: prefix + "mobile",
+        };
+        
+        //options
+        var defaults = {
+            maxDisplay: 3,
+            onChange: null,
+            onOpen: null,
+            onClose: null
+        };
+        
+        options = $.extend(defaults, options);
+        
+        var model = modelFromSelect();
+        
+        var orig_id = selectMultOrig.attr("id"),
+            orig_class = selectMultOrig.attr("class"),
+            search_text = "Search...";
+        
+        //template for new element that replaces the picker
+        var newDiv = $("<div id='"+orig_id+"' class='"+orig_class+" "+main_class+"'>"+
+                           "<div class='"+settings.class_selected+"'>"+
+                               "<span class='"+settings.class_wrap_selected+"'>"+
+                                   search_text +
+                               "</span>"+
+                           "</div>"+
+                           "<div class='"+settings.class_popup+"'>"+
+                               "<div class='"+settings.class_search_wrapper+"'>"+
+                                   "<input type='text' class='"+settings.class_search+"' placeholder=''/>"+
+                               "</div>"+
+                               "<div class='"+settings.class_options_wrapper+"'></div>"+
+                           "</div>"+
+                       "</div>");
+        
+        selectMultOrig.after(newDiv);
+        var selectMult = newDiv;
+        
+        var select_placeholder = selectMult.find("."+settings.class_selected);
+        var select_placeholder_text = selectMult.find("."+settings.class_wrap_selected);
+        var select_popup = selectMult.find("."+settings.class_popup);
+        var select_popup_search = selectMult.find("."+settings.class_search);
+        var select_popup_options = selectMult.find("."+settings.class_options_wrapper);
+        
+        selectMultOrig.addClass(main_class);
+        selectMultOrig.addClass(settings.class_mobile);
+        selectMult.removeClass('form-control');
+        
+        selectMultOrig.on('change', function() {
+            model = modelFromValues(selectMultOrig.val());
+            reset();
+            
+            //onChangeCallback
+            if($.isFunction(options.onChange)) {
+                options.onChange(getValues());
+            }
+        });
+        
+        reset();
+        
+        $('html').click(function() {
+            closeSelect();
+        });
+        
+        selectMult.click(function(e){
+            event.stopPropagation();
+        });
+        
+        select_placeholder.click(function() {
+            openSelect();   
+        });
+        
+        select_popup_search.keyup(function() {
+            filterSelect();
+        });
+
+        //reset all options and placeholder based on model        
+        function reset() {
+            setOptions(model);
+            updatePlaceholder();
+        }
+        
+        //extract model from select element
+        function modelFromSelect() {
+            var new_model = [];
+            selectMultOrig.find("option").each(function() {
+                var opt = $(this);
+                    var option_text = opt.text(),
+                        option_value = opt.attr('value'),
+                        option_selected = (opt.attr('selected') == "selected") ? true : false;
+                var opt_obj = {
+                    text: option_text,
+                    value: option_value,
+                    selected: option_selected
+                };
+                new_model.push(opt_obj);
+            });
+            return new_model;
+        }
+        
+        //extract model from values
+        function modelFromValues(values) {
+            var new_model = [];
+            for(var i=0, size=model.length; i<size; i++){
+                var option = model[i];
+                option.selected = (values.indexOf(model[i].value) === -1) ? false : true;
+                new_model.push(option);
+            }
+            return new_model;
+        }
+        
+        //opens the fake select
+        function openSelect() {
+            select_popup_search.val('');
+            filterSelect();
+            updatePlaceholder();
+            select_popup.addClass(settings.class_popup_visible);
+            select_popup_search.focus();
+            
+            //onOpen Callback
+            if($.isFunction(options.onOpen)) {
+                options.onOpen(getValues());
+            }
+        }
+        
+        //closes the fake select
+        function closeSelect() {
+            select_popup_search.blur();
+            select_popup.removeClass(settings.class_popup_visible);
+            updatePlaceholder();
+            
+            //onClose Callback
+            if($.isFunction(options.onClose)) {
+                options.onClose(getValues());
+            }
+        }
+        
+        //apply model a certain model
+        function setOptions(options) {
+            select_popup_options.html('');
+            for(var i=0, size=options.length; i<size; i++){
+                var option_text = options[i].text,
+                    option_value = options[i].value,
+                    option_selected = options[i].selected;
+                var newOption = $("<div class='"+settings.class_option+"'></div>")
+                                    .text(option_text)
+                                    .attr('data-value', option_value);
+                if(option_selected !== false) {
+                    newOption.addClass(settings.class_option_checked);
+                }
+                
+                newOption.click(function() {
+                    checkOption($(this));
+                });
+                
+                select_popup_options.append(newOption);
+            }
+        }
+        
+        //checks an option, marking it visually and changing the model
+        function checkOption(el, value) {
+            el.toggleClass(settings.class_option_checked);
+            //toggle value in model
+            var val = value || el.attr('data-value');
+            for(var i=0, size=model.length; i<size; i++){
+                if(model[i].value == val) {
+                    model[i].selected = !model[i].selected;
+                    break;
+                }
+            }
+            //update search box
+            select_popup_search.val('');
+            filterSelect();
+            updatePlaceholder();
+            //update original select
+            var values = getValues(true);
+            updateOriginal(values);
+            //onChangeCallback
+            if($.isFunction(options.onChange)) {
+                options.onChange(getValues());
+            }
+        }
+        
+        //get only selected values. if val_only equals true, only the value attr is passed
+        function getValues(val_only) {
+            var values = [];
+            for(var i=0, size=model.length; i<size; i++){
+                var option = model[i];
+                if(model[i].selected === true) {
+                    if(val_only) values.push(option.value);
+                    else values.push(option);
+                }
+            }
+            return values;
+        } 
+        
+        //updates the original select element
+        function updateOriginal(vals) {
+            selectMultOrig.val(vals);
+        }
+        
+        //updates text in the search box and place holder
+        function updatePlaceholder() {
+            var values = getValues();
+            var text = search_text;
+            if(values.length === 0) {
+                select_popup_search.attr('placeholder', '');
+                select_placeholder_text.html(text);
+            } else {
+                var maxDisplay = options.maxDisplay;
+                text = values.length;
+                text += (values.length > 1) ? " countries selected" : " country selected";
+                
+                if(values.length > maxDisplay) {
+                    select_placeholder_text.html(text);
+                }
+                else if(values.length === 1) {
+                    text = values.length + " country selected";
+                    select_placeholder_text.html(values[0].text);
+                }
+                else {
+                    var placeholder_text = "";
+                    for(var i=0, size=values.length; i<size; i++){
+                        placeholder_text += values[i].text;
+                        if(i < size - 1) placeholder_text += ", ";
+                    }
+                    select_placeholder_text.html(placeholder_text);
+                }
+                select_popup_search.attr('placeholder', text + " (total of "+model.length+")");
+            }
+        }
+        
+        //filters based on search box
+        function filterSelect() {
+            var val = select_popup_search.val();
+            filterOptions(val);
+        }
+        
+        //shows only options that match a substring
+        function filterOptions(substring) {
+            substring = substring.toLowerCase();
+            var new_model = [];
+            for(var i=0, size=model.length; i<size; i++){
+                var option = model[i];
+                var text = option.text.toLowerCase();
+                if(text.indexOf(substring)!==-1) {
+                    //found
+                    new_model.push(option);
+                }
+            }
+            setOptions(new_model);
+        };
+        
+    };
 }));

@@ -1,0 +1,125 @@
+$selectMultRadius: 4px;
+$checkMark: "\2713 ";
+$selectMultColor: rgb(91, 138, 175);
+
+.select-mult {
+    position: relative;
+    margin: 0px 5px;
+    display: none;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+        
+    .select-mult-selected {
+        @include border-radius($selectMultRadius);
+        margin: 3px;
+        display: block;
+        background: #ffffff;
+        border: 1px solid #eee;
+        padding: 8px;
+        position: relative;
+        cursor: text;
+        
+        &:after {
+            @include absolute(14px, 10px);
+            content:"";
+            display: block;
+            width: 0; 
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #999;
+            cursor: pointer;
+        }
+       
+        .select-mult-wrap {
+            color: #999;    
+        }
+    }
+    
+    .select-mult-popup {
+        @include border-radius($selectMultRadius);
+        @include absolute(0px, 0px, auto, 0px);
+        @include single-box-shadow($colorBlackTransparent, 0px, 0px, 15px, 0px);
+        display: none;
+        border: 1px solid #eee;
+        padding: 2px;
+        background: #FFFFFF;
+        
+        &.select-mult-open {
+            display: block;
+        }
+        
+        .select-mult-search {
+            @include border-radius($selectMultRadius);
+            @include box-sizing(border-box);
+            padding: 8px;
+            margin: 0px;
+            border: 1px solid #eee;
+            display: block;
+            width: 100%;
+            color: #999;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        
+        .select-mult-options-wrapper {
+            margin: 5px 0px 0px 0px;
+            max-height: 260px;
+            overflow: hidden;
+            overflow-y: scroll;
+            @include overflow-mobile();
+            
+            .select-mult-option {
+                padding: 5px;
+                color: #666;
+                position: relative;
+                padding-left: 25px;
+                
+                &:before {
+                    @include absolute(10px, auto, auto, 7px);
+                    content: "";
+                    border: 1px solid #eee;
+                    display: block;
+                    width: 10px;
+                    height: 10px;
+                }
+                  
+                
+                &:hover {
+                    background: #f2f2f2;
+                    cursor: pointer;
+                        
+                    &:before {
+                      border: 1px solid #ccc;  
+                    }
+                }
+                    
+                &.select-mult-option-checked {
+                    color: $selectMultColor;
+               
+                    &:after {
+                        @include absolute(0px, auto, auto, 7px);
+                        content: $checkMark;
+                        color: $selectMultColor;
+                        font-size: 20px;
+                        display: block;
+                        width: 10px;
+                        height: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+.select-mult-mobile {
+    display: block;
+}
+
+@media (min-width : 768px) {
+    .select-mult {
+        display: block;
+    }
+    .select-mult-mobile {
+        display: none !important;
+    }
+}

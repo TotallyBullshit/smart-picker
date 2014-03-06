@@ -2,9 +2,10 @@
 
 var menu_data = {
 	title: "Choose one of the following tests",
-	options: [
-		{value: "index.html", name: "Index"}
-	]
+	options: [{
+		value: "index.html",
+		name: "Index"
+	}]
 }
 
 var tests = [
@@ -12,27 +13,27 @@ var tests = [
 	"Event callbacks",
 	"A few options",
 	"Type of picker",
-	"Advanced",
+	"World Map",
 ];
 
 var curr_page = window.location.href;
-for(var i=0, size=tests.length; i<size; i++) {
-	var num = i+1,
-		title = num + ". "+ tests[i],
-		file = "test"+num+".html";
+for (var i = 0, size = tests.length; i < size; i++) {
+	var num = i + 1,
+		title = num + ". " + tests[i],
+		file = "test" + num + ".html";
 
 	var new_option = {
 		value: file,
 		name: title
 	}
-	if(curr_page.indexOf(file) !== -1) {
+	if (curr_page.indexOf(file) !== -1) {
 		new_option.selected = true
 	}
 	menu_data.options.push(new_option);
 }
 
 $("#menu").click(function() {
-	var picker = new Picker("regularList", "menuPicker", {
+	var picker = new smartPicker("regularList", "menuPicker", {
 		contentData: menu_data,
 		closeButton: true,
 		transition: 'fade',
@@ -41,13 +42,13 @@ $("#menu").click(function() {
 		draggable: true,
 		onInteraction: function(data) {
 			location.href = data.selected;
-		} 
+		}
 	});
 	picker.show();
 });
 
 $("#menu_test").click(function() {
-	var picker = new Picker("regularList", "menuPicker", {
+	var picker = new smartPicker("regularList", "menuPicker", {
 		contentData: menu_data,
 		closeButton: true,
 		transition: 'slideLeft',
@@ -57,7 +58,7 @@ $("#menu_test").click(function() {
 		width: 400,
 		onInteraction: function(data) {
 			location.href = data.selected;
-		} 
+		}
 	});
 	picker.show();
 });

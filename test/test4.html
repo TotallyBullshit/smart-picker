@@ -5,17 +5,17 @@
 	<title>Testing pickers</title>
 
 	<!-- Just a basic CSS for the test page -->
-	<link rel="stylesheet" type="text/css" href="../dist/styles/picker.css">
+	<link rel="stylesheet" type="text/css" href="../dist/styles/smart-icker.css">
 
 	<!-- Just a basic CSS for the test page -->
 	<link rel="stylesheet" type="text/css" href="test.css">
 
 	<!-- Personalized CSS for the picker-->
-	<link rel="stylesheet" type="text/css" href="picker.css">
+	<link rel="stylesheet" type="text/css" href="smart-picker.css">
 
 	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
 	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
-	<script type="text/javascript" src="../dist/picker.js"></script>
+	<script type="text/javascript" src="../dist/smart-picker.js"></script>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
@@ -28,7 +28,7 @@
 	<p><button class="button" id="button1">Show Picker</button></p>
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regular", "my-list", {});
+var picker = new smartPicker("regular", "my-list", {});
 picker.show();</pre>
 
 	<h2>regularList</h2>
@@ -36,7 +36,7 @@ picker.show();</pre>
 	<p><button class="button" id="button2">Show Picker</button></p>
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("regularList", "my-list2", {});
+var picker = new smartPicker("regularList", "my-list2", {});
 picker.show();</pre>
 
 	<h2>geo</h2>
@@ -44,15 +44,37 @@ picker.show();</pre>
 	<p><button class="button" id="button3">Show Picker</button></p>
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("geo", "my-geo", {});
+var picker = new smartPicker("geo", "my-geo", {});
 picker.show();</pre>
 
 	<h2>geoMult</h2>
-	<p></p>
+	<p>Selected Countries: <span id="result"></span></p>
 	<p><button class="button" id="button4">Show Picker</button></p>
 	<h3>Usage:</h3>
 	<pre>
-var picker = new Picker("geoMult", "my-geo-mult", {});
+var picker = new smartPicker("geoMult", "my-geo-mult", {
+	width: 500,
+	draggable: true,
+	confirmButton: "Select these countries",
+	onInteraction: function(data) {
+		var selected = data.selected;
+		var selected_text = "";
+		for (var i = 0, size=selected.length; i < size; i++) {
+			selected_text += selected[i].text;
+			if(i < size - 1) selected_text+= ", ";
+		};
+		$("#result").text(selected_text);
+	},
+	onSet: function(data) {
+		var selected = data.selected;
+		var selected_text = "";
+		for (var i = 0, size=selected.length; i < size; i++) {
+			selected_text += selected[i].text;
+			if(i < size - 1) selected_text+= ", ";
+		};
+		alert("You selected: "+selected_text);
+	}
+});
 picker.show();</pre>
 
 	<hr/>
@@ -60,13 +82,35 @@ picker.show();</pre>
 	
 	<script>
 
-		var picker1 = new Picker("regular", "my-list", {});
+		var picker1 = new smartPicker("regular", "my-list", {});
 
-		var picker2 = new Picker("regularList", "my-list2", {});
+		var picker2 = new smartPicker("regularList", "my-list2", {});
 
-		var picker3 = new Picker("geo", "my-geo", {});
+		var picker3 = new smartPicker("geo", "my-geo", {});
 
-		var picker4 = new Picker("geoMult", "my-geo-mult", {});
+		var picker4 = new smartPicker("geoMult", "my-geo-mult", {
+			width: 500,
+			draggable: true,
+			confirmButton: "Select these countries",
+			onInteraction: function(data) {
+				var selected = data.selected;
+				var selected_text = "";
+				for (var i = 0, size=selected.length; i < size; i++) {
+					selected_text += selected[i].text;
+					if(i < size - 1) selected_text+= ", ";
+				};
+				$("#result").text(selected_text);
+			},
+			onSet: function(data) {
+				var selected = data.selected;
+				var selected_text = "";
+				for (var i = 0, size=selected.length; i < size; i++) {
+					selected_text += selected[i].text;
+					if(i < size - 1) selected_text+= ", ";
+				};
+				alert("You selected: "+selected_text);
+			}
+		});
 
 		$("#button1").click(function() {
 			picker1.show();
