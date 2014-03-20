@@ -91,6 +91,7 @@
          	onSet: undefined,
 
          	//personalized content
+         	initialValue: undefined,
    			contentData: undefined,
    			contentTemplate: undefined,
    			contentScript: undefined,
@@ -327,7 +328,7 @@
 			 * - apply is a function to be executed after the template
 			 *   is parsed
 			 */
-			build: function(type, data, template, postRender) {
+			build: function(type, data, template, postRender, initialValue) {
 				data = data || {};
 				var typeTemplate, typePostRender;
 
@@ -344,10 +345,20 @@
 						break;
 
 					case "geoMult":
+
+						var opts = dataMan.countries;
+						if(initialValue && _.isArray(initialValue)) {
+							var initial = initialValue;
+							_.each(opts, function(country) {
+								if(_.indexOf(initial, country.value) !== -1) {
+									country.selected = true;
+								}
+							});
+						}
+
 						data = _.extend({
 							text: "Pick your countries",
-							options: dataMan.countries,
-							selected: []
+							options: opts
 						}, data);
 
 						typeTemplate = this.templates['select_mult'];
@@ -423,13 +434,6 @@
 							   		"><%= opt.name %></option>"+
 							   	"<% }); %>"+
 							   "</select>"+
-							   "<div id='listSelected'>"+
-							   "<% _.each(selected, function(opt) { %>"+
-							   		"<div class='selected'>"+
-							   		"<%= opt.name %></div>"+
-							   		"<div class='delete'>&times;</div>"+
-							   	"<% }); %>"+
-							   "</div>"+
 						   "</div>",
 				one_from_list: "<h4 align='center'><%= text %></h4>"+
 						   "<div>"+
@@ -487,7 +491,7 @@
 
 		//========= ADD SPECIFIC CONTECT ACCORDING TO THE TYPE ===========
 		//content (public)
-		_this.content = template.build(type, options.contentData, options.contentTemplate, options.contentScript);
+		_this.content = template.build(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
 
 		//pickerGeo			
 		//pickerAge
