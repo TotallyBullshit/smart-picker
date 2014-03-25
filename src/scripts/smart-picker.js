@@ -349,11 +349,14 @@
 						var opts = dataMan.countries;
 						if(initialValue && _.isArray(initialValue)) {
 							var initial = initialValue;
+							var selected = [];
 							_.each(opts, function(country) {
 								if(_.indexOf(initial, country.value) !== -1) {
 									country.selected = true;
+									selected.push(country);
 								}
 							});
+							set_state(selected);
 						}
 
 						data = _.extend({
@@ -503,22 +506,7 @@
 			//beforeShow
 			events.trigger('beforeShow');
 
-			//create elements if they do not exist
-			if(_.isUndefined(_this.elements)) {
-				_this.elements = create_elements();
-
-				//bind plugin events after elements are created
-				bind_actions();
-
-				//add actual content
-				//at this point, the picker has a content placeholder
-				var placeholder = _this.elements.content;
-				placeholder.html(_this.content.markup);
-				//execute the postRender function to this content
-				if($.type(_this.content.postRender) === "function") {
-					_this.content.postRender(placeholder);
-				}
-			}
+			_this.bindElements();
 
 			//display element
 			_this.elements.element.css("display", "block");
@@ -571,6 +559,23 @@
 
 		};
 
+		_this.bindElements = function() {
+			//create elements if they do not exist
+			if(_.isUndefined(_this.elements)) {
+				_this.elements = create_elements();
+				//bind plugin events after elements are created
+				bind_actions();
+				//add actual content
+				//at this point, the picker has a content placeholder
+				var placeholder = _this.elements.content;
+				placeholder.html(_this.content.markup);
+				//execute the postRender function to this content
+				if($.type(_this.content.postRender) === "function") {
+					_this.content.postRender(placeholder);
+				}
+			}
+		}
+
 		/* Method that hides the picker */
 		_this.hide = function() {
 			if(_.isUndefined(_this.elements)) return;
@@ -592,10 +597,28 @@
 		/* Method that removes DOM elements */
         _this.clear = function () {
             //remove each created html
+            $("#" + _this.id).remove();
             _.each(_this.elements, function(element) {
             	element.remove();
             });
-            _this.remove();
+            _this.elements = undefined;
+        };
+
+        /* reset initial value */
+        _this.resetValue = function(newValue) {
+        	_this.clear();
+        	options.initialValue = newValue;
+        	_this.content = template.build(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
+        };
+
+        _this.onSet = function() {
+        	var values = get_state();
+        	events.trigger("onSet", values);
+        };
+
+        _this.onInteraction = function() {
+        	var values = get_state();
+        	events.trigger("onInteraction", values);
         };
 
 		

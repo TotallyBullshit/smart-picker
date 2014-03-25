@@ -27,13 +27,57 @@
 
 	<h2>Color the map based on picker</h2>
 	<p>Click on the button below to select countries. In this example, we can clearly see the difference between onInteraction and onSet</p>
-	<p><button class="button" id="button1">Select Countries</button></p>
+	<p><button class="button" id="button1">Select Countries</button> <button class="button" id="button2">Select 5</button></p>
 
 	<div id="map">
 	    <svg width="100%" height="450px"></svg>
 	</div>
 
 	<script>
+
+		var picker = new smartPicker("geoMult", "my-geo-mult", {
+			width: 500,
+			clickOverlay: false,
+			draggable: true,
+			initialValue: ['BRA', 'USA'],
+			confirmButton: "Select these countries",
+			onInteraction: function(data) {
+				var vals = getValues(data.selected);
+
+				d3.select('svg').selectAll('path').attr('fill', function(d) {
+					if(vals.indexOf(d.id) !== -1) return '#ccc';
+	                else return '#f2f2f2';
+	            });
+			},
+			onSet: function(data) {
+				var vals = getValues(data.selected); console.log(">>>>>"); console.log(data);
+
+				d3.select('svg').selectAll('path').attr('fill', function(d) {
+					if(vals.indexOf(d.id) !== -1) return '#db4334';
+					else return '#f2f2f2';
+	            });
+			}
+		});
+
+		$("#button1").click(function() {
+			picker.show();
+		});
+
+		$("#button2").click(function() {
+			picker.resetValue(['BRA', 'USA', 'RUS', 'IND', 'AUS']);
+			picker.onSet();
+		});
+
+		function getValues(selected) {
+			var vals =[];
+			if(selected === undefined) return vals;
+			for (var i = 0, size = selected.length; i < size; i++) {
+				vals.push(selected[i].value);
+			};
+			return vals;
+		}
+
+		/* MAP */
 	    var mapJSON = d3.json('http://vizabi-dev.gapminder.org.s3.amazonaws.com/data/bubble_map/world-countries.json', function(json) {
 	        var map = d3.geo.equirectangular();
 	        var path = d3.geo.path().projection(map);
@@ -49,6 +93,8 @@
 	            .attr('fill', function(d) {
 	                return '#f2f2f2';
 	            });
+
+	         picker.onSet();
 	    });
 	</script>
 
@@ -78,46 +124,6 @@ picker.show();</pre>
 
 	<hr/>
 	<p><a  id="menu_test">Menu</a></p>
-	
-	<script>
-
-		var picker = new smartPicker("geoMult", "my-geo-mult", {
-			width: 500,
-			clickOverlay: false,
-			draggable: true,
-			confirmButton: "Select these countries",
-			onInteraction: function(data) {
-				var vals = getValues(data.selected);
-
-				d3.select('svg').selectAll('path').attr('fill', function(d) {
-					if(vals.indexOf(d.id) !== -1) return '#ccc';
-	                else return '#f2f2f2';
-	            });
-			},
-			onSet: function(data) {
-				var vals = getValues(data.selected);
-
-				d3.select('svg').selectAll('path').attr('fill', function(d) {
-					if(vals.indexOf(d.id) !== -1) return '#db4334';
-					else return '#f2f2f2';
-	            });
-			}
-		});
-
-		$("#button1").click(function() {
-			picker.show();
-		});
-
-		function getValues(selected) {
-			var vals =[];
-			if(selected === undefined) return vals;
-			for (var i = 0, size = selected.length; i < size; i++) {
-				vals.push(selected[i].value);
-			};
-			return vals;
-		}
-
-	</script>
 
 
 	<script type="text/javascript" src="menu.js"></script>
