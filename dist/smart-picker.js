@@ -611,7 +611,7 @@
         _this.resetValue = function(newValue) {
         	_this.clear();
         	options.initialValue = newValue;
-        	_this.content = template.template(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
+        	_this.content = template.build(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
         };
 
         _this.onSet = function() {
