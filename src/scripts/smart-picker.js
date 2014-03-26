@@ -354,6 +354,9 @@
 								if(_.indexOf(initial, country.value) !== -1) {
 									country.selected = true;
 									selected.push(country);
+								} else {
+									//unselect if it's not in the initial state
+									country.selected = false;
 								}
 							});
 							set_state(selected);

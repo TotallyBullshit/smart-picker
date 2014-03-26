@@ -354,6 +354,9 @@
 								if(_.indexOf(initial, country.value) !== -1) {
 									country.selected = true;
 									selected.push(country);
+								} else {
+									//unselect if it's not in the initial state
+									country.selected = false;
 								}
 							});
 							set_state(selected);
@@ -608,7 +611,7 @@
         _this.resetValue = function(newValue) {
         	_this.clear();
         	options.initialValue = newValue;
-        	_this.content = template.build(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
+        	_this.content = template.template(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
         };
 
         _this.onSet = function() {
