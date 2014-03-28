@@ -614,6 +614,12 @@
         	_this.content = template.build(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
         };
 
+        _this.resetData = function(newContentData) {
+        	_this.clear();
+        	options.contentData = newContentData;
+        	_this.content = template.build(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
+        };
+
         _this.onSet = function() {
         	var values = get_state();
         	events.trigger("onSet", values);
