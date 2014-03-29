@@ -347,10 +347,15 @@
 					case "geoMult":
 
 						var opts = dataMan.countries;
+						data = _.extend({
+							text: "Pick your countries",
+							options: opts
+						}, data);
+
 						if(initialValue && _.isArray(initialValue)) {
 							var initial = initialValue;
 							var selected = [];
-							_.each(opts, function(country) {
+							_.each(data.options, function(country) {
 								if(_.indexOf(initial, country.value) !== -1) {
 									country.selected = true;
 									selected.push(country);
@@ -361,11 +366,6 @@
 							});
 							set_state(selected);
 						}
-
-						data = _.extend({
-							text: "Pick your countries",
-							options: opts
-						}, data);
 
 						typeTemplate = this.templates['select_mult'];
 						typePostRender = this.functions['select_mult'];
@@ -617,6 +617,12 @@
         _this.resetData = function(newContentData) {
         	_this.clear();
         	options.contentData = newContentData;
+        	var selected = get_state().selected;
+        	selected = _.map(selected, function(item) {
+        		return item.value;
+        	});
+        	options.initialValue = selected;
+
         	_this.content = template.build(type, options.contentData, options.contentTemplate, options.contentScript, options.initialValue);
         };
 
