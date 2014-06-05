@@ -57,6 +57,7 @@ Type of smartPicker (string). Supported values: 'regular', 'regularList', 'multi
 
 - rename geo and geoMult to multi
 - input picker
+- remove compass dependency
 
 ####id
 id of the new element to be created (string). Supported values: any string.
