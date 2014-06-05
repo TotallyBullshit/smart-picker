@@ -51,11 +51,9 @@ my_picker.show();
 var picker = new smartPicker(*type*, *id*, [*options*]);
 ```
 ####type
-Type of smartPicker (string). Supported values: 'regular', 'regularList', 'multi', 'input', ~~'geo'~~, ~~'geoMult'~~
-
+Type of smartPicker (string). Supported values: 'regular', 'regularList', 'geo', 'geoMult'
 #####TO DO:
 
-- rename geo and geoMult to multi
 - input picker
 - remove compass dependency
 
