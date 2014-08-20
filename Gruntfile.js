@@ -92,8 +92,18 @@ module.exports = function (grunt) {
                             'styles/smart-picker.css',
                             'styles/fonts/{,*/}*.*'
                         ]
-                    }
+                    },
                 ]
+            },
+            sass: {
+                files: {
+                    'dist/styles/smart-picker.scss': [
+                        dist_folder+'styles/smart-picker.css'
+                    ],
+                    'dist/styles/smart-picker.min.scss': [
+                        dist_folder+'styles/smart-picker.min.css'
+                    ]
+                }
             },
             picker: {
                 files: [
@@ -121,7 +131,8 @@ module.exports = function (grunt) {
         'copy:picker',
         'imagemin',
         'uglify',
-        'cssmin'
+        'cssmin',
+        'copy:sass'
     ]);
 
     grunt.registerTask('default', [
