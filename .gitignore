@@ -5,5 +5,4 @@ node_modules
 tmp
 src/.sass-cache
 lib
-dist
 .sass-cache

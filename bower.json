@@ -1,11 +1,11 @@
 {
-  "name": "picker",
-  "version": "0.0.0",
+  "name": "smart-picker",
+  "version": "0.1.0",
   "authors": [
     "Arthur Camara <arthurcamara@gmail.com>"
   ],
   "description": "Set of pickers for gapminder projects",
-  "main": "dist/pickers.min.js",
+  "main": "dist/smart-picker.min.js",
   "keywords": [
     "Picker",
     "GeoPicker",
@@ -20,10 +20,10 @@
     "node_modules",
     "lib",
     "test",
-    "tests",
-    "dist"
+    "tests"
   ],
   "devDependencies": {
-    "jquery": "~2.1.0"
+    "jquery": "~2.1.0",
+    "underscore": "~1.6.0"
   }
 }
