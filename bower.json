@@ -18,9 +18,10 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
+    "lib",
     "test",
-    "tests"
+    "tests",
+    "dist"
   ],
   "devDependencies": {
     "jquery": "~2.1.0"
