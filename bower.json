@@ -14,6 +14,13 @@
   ],
   "license": "MIT",
   "homepage": "http://www.gapminder.org",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "lib",
+    "test",
+    "tests"
+  ],
   "dependencies": {
     "jquery": "~2.1.0",
     "underscore": "~1.6.0"
