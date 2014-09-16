@@ -87,19 +87,30 @@ picker.show();</pre>
 	
 	<script>
 
+		var content = {
+            text: "Example Picker",
+            options: [{ value: "", name: "Choose" },
+            		  { value: "1", name: "One" },
+            		  { value: "2", name: "Two" },
+            		  { value: "3", name: "Three" }]
+        };
+
 		var picker1 = new smartPicker("regular", "my-picker1", {
+			contentData: content,
 			beforeShow: function() {
 				alert("This happens before the picker is created");
 			}
 		});
 
 		var picker2 = new smartPicker("regular", "my-picker2", {
+			contentData: content,
 			onInteraction: function(data) {
 				$("#result2").html(data.selected);
 			}
 		});
 
 		var picker3 = new smartPicker("regular", "my-picker3", {
+			contentData: content,
 			onSet: function(data) {
 				$("#result3").html(data.selected);
 			},
@@ -107,6 +118,7 @@ picker.show();</pre>
 		});
 
 		var picker4 = new smartPicker("regularList", "my-picker4", {
+			contentData: content,
 			onInteraction: function(data) {
 				$("#result4").html(data.selected);
 			},

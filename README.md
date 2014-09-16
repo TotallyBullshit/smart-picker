@@ -51,7 +51,7 @@ my_picker.show();
 var picker = new smartPicker(*type*, *id*, [*options*]);
 ```
 ####type
-Type of smartPicker (string). Supported values: 'regular', 'regularList', 'geo', 'geoMult'
+Type of smartPicker (string). Supported values: 'regular', 'regularList', 'mult'
 #####TO DO:
 
 - input picker

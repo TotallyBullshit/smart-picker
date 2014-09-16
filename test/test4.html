@@ -5,7 +5,7 @@
 	<title>Testing pickers</title>
 
 	<!-- Just a basic CSS for the test page -->
-	<link rel="stylesheet" type="text/css" href="../dist/styles/smart-icker.css">
+	<link rel="stylesheet" type="text/css" href="../dist/styles/smart-picker.css">
 
 	<!-- Just a basic CSS for the test page -->
 	<link rel="stylesheet" type="text/css" href="test.css">
@@ -28,34 +28,46 @@
 	<p><button class="button" id="button1">Show Picker</button></p>
 	<h3>Usage:</h3>
 	<pre>
-var picker = new smartPicker("regular", "my-list", {});
+var picker = new smartPicker("select", "my-list", {
+		contentData: {
+			text: "Select one",
+			options: [{ value: "1", name: "Select this"},
+				  { value: "2", name: "Or this!"},
+				  { value: "3", name: "How about this one?"}]
+		}
+	});
 picker.show();</pre>
 
-	<h2>regularList</h2>
+	<h2>list</h2>
 	<p></p>
 	<p><button class="button" id="button2">Show Picker</button></p>
 	<h3>Usage:</h3>
 	<pre>
-var picker = new smartPicker("regularList", "my-list2", {});
+var picker = new smartPicker("list", "my-list2", {
+		contentData: {
+			text: "Select one",
+			options: [{ value: "1", name: "Select this"},
+				  { value: "2", name: "Or this!"},
+				  { value: "3", name: "How about this one?"}]
+		}
+	});
 picker.show();</pre>
 
-	<h2>geo</h2>
-	<p></p>
+	<h2>mult</h2>
+	<p>Selected Countries: <span id="result"></span></p>
 	<p><button class="button" id="button3">Show Picker</button></p>
 	<h3>Usage:</h3>
 	<pre>
-var picker = new smartPicker("geo", "my-geo", {});
-picker.show();</pre>
-
-	<h2>geoMult</h2>
-	<p>Selected Countries: <span id="result"></span></p>
-	<p><button class="button" id="button4">Show Picker</button></p>
-	<h3>Usage:</h3>
-	<pre>
-var picker = new smartPicker("geoMult", "my-geo-mult", {
+var picker = new smartPicker("mult", "my-mult", {
 	width: 500,
 	draggable: true,
-	confirmButton: "Select these countries",
+	contentData: {
+		text: "Select one or many",
+		options: [{ value: "1", name: "Select this"},
+			  { value: "2", name: "Select this as well if you want"},
+			  { value: "3", name: "What about this one?"}]
+	},
+	confirmButton: "Select these",
 	onInteraction: function(data) {
 		var selected = data.selected;
 		var selected_text = "";
@@ -82,16 +94,34 @@ picker.show();</pre>
 	
 	<script>
 
-		var picker1 = new smartPicker("regular", "my-list", {});
+		var picker1 = new smartPicker("regular", "my-list", {
+		contentData: {
+			text: "Select one",
+			options: [{ value: "1", name: "Select this"},
+					  { value: "2", name: "Or this!"},
+					  { value: "3", name: "How about this one?"}]
+			}
+		});
 
-		var picker2 = new smartPicker("regularList", "my-list2", {});
+		var picker2 = new smartPicker("list", "my-list2", {
+		contentData: {
+			text: "Select one",
+			options: [{ value: "1", name: "Select this"},
+					  { value: "2", name: "Or this!"},
+					  { value: "3", name: "How about this one?"}]
+			}
+		});
 
-		var picker3 = new smartPicker("geo", "my-geo", {});
-
-		var picker4 = new smartPicker("geoMult", "my-geo-mult", {
+		var picker3 = new smartPicker("mult", "my-mult", {
 			width: 500,
 			draggable: true,
-			confirmButton: "Select these countries",
+			contentData: {
+				text: "Select one or many",
+				options: [{ value: "1", name: "Select this"},
+						  { value: "2", name: "Select this as well if you want"},
+						  { value: "3", name: "What about this one?"}]
+			},
+			confirmButton: "Select these",
 			onInteraction: function(data) {
 				var selected = data.selected;
 				var selected_text = "";
@@ -120,9 +150,6 @@ picker.show();</pre>
 		});
 		$("#button3").click(function() {
 			picker3.show();
-		});
-		$("#button4").click(function() {
-			picker4.show();
 		});
 
 	</script>

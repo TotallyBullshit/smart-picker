@@ -42,8 +42,8 @@
 			ok_button_class: 'picker-ok-button',
 			content_class: 'picker-content',
 			//types of pickers
-			possible_types: ['regular', 'regularList', 'geo', 'geoMult'],
-			default_type: 'regular',
+			possible_types: ['select', 'list', 'mult'],
+			default_type: 'select',
 			//possible transitions
             possible_transitions: ['no-transition', 'fade', 'slide', 'slideUp', 'slideRight', 'slideLeft'],
             default_transition: 'slide',
@@ -165,7 +165,7 @@
 
 			/*
 			 * build specific content for each picker
-			 * - type is a string (e.g: "geo" )
+			 * - type is a string (e.g: "mult" )
 			 * - data is an object (e.g: { title: "smartPicker"} )
 			 * - template is an underscore template
 			 * - apply is a function to be executed after the template
@@ -176,20 +176,10 @@
 				var typeTemplate, typePostRender;
 
 				switch(type) {
-					case "geo":
-						data = _.extend({
-							text: "Pick your country",
-							options: []
-						}, data);
 
-						typeTemplate = this.templates['select_one'];
-						typePostRender = this.functions['select_one'];
-						
-						break;
-
-					case "geoMult":
+					case "mult":
 						data = _.extend({
-							text: "Pick your countries",
+							text: "",
 							options: []
 						}, data);
 
@@ -213,14 +203,11 @@
 						
 						break;
 
-					case "regularList":
+					case "list":
 						data = _.extend({
-							text: "Pick one",
+							text: "",
 							options: [
-								{value:"", name: "Choose...", selected: true},
-								{value:"1", name: "One"},
-								{value:"2", name: "Two"},
-								{value:"3", name: "Three"}
+								{value:"", name: "Choose...", selected: true}
 							]
 						}, data);
 
@@ -229,15 +216,12 @@
 
 						break;
 
-					case "regular":
+					case "select":
 					default:
 						data = _.extend({
-							text: "Pick one",
+							text: "",
 							options: [
-								{value:"", name: "Choose...", selected: true},
-								{value:"1", name: "One"},
-								{value:"2", name: "Two"},
-								{value:"3", name: "Three"}
+								{value:"", name: "Choose...", selected: true}
 							]
 						}, data);
 
@@ -558,7 +542,7 @@
 			}
 
 			/* handle specific width */
-			var css_properties = ['width', 'height']; //, 'top', 'left', 'bottom', 'right'
+			var css_properties = ['width', 'height'];
 			for (var i = css_properties.length - 1; i >= 0; i--) {
 				var prop = css_properties[i];
 				if($.type(options[prop]) !== 'undefined' && $.type(options[prop]) !== 'null' && options[prop] !== 'auto') {
@@ -1014,14 +998,10 @@
             } else {
                 var maxDisplay = options.maxDisplay;
                 text = values.length;
-                text += (values.length > 1) ? " countries selected" : " country selected";
+                text += " selected";
                 
                 if(values.length > maxDisplay) {
                     select_placeholder_text.html(text);
-                }
-                else if(values.length === 1) {
-                    text = values.length + " country selected";
-                    select_placeholder_text.html(values[0].text);
                 }
                 else {
                     var placeholder_text = "";

@@ -1,7 +1,7 @@
 //simple code for test page
 
 var menu_data = {
-	title: "Choose one of the following tests",
+	text: "Choose one of the following tests",
 	options: [{
 		value: "index.html",
 		name: "Index"
@@ -32,7 +32,7 @@ for (var i = 0, size = tests.length; i < size; i++) {
 	menu_data.options.push(new_option);
 }
 
-$("#menu").click(function() {
+$("#menu, #menu_test").click(function() {
 	var picker = new smartPicker("regularList", "menuPicker", {
 		contentData: menu_data,
 		closeButton: true,
@@ -40,22 +40,6 @@ $("#menu").click(function() {
 		top: 100,
 		width: 400,
 		draggable: true,
-		onInteraction: function(data) {
-			location.href = data.selected;
-		}
-	});
-	picker.show();
-});
-
-$("#menu_test").click(function() {
-	var picker = new smartPicker("regularList", "menuPicker", {
-		contentData: menu_data,
-		closeButton: true,
-		transition: 'slideLeft',
-		left: -7,
-		top: 'auto',
-		bottom: 50,
-		width: 400,
 		onInteraction: function(data) {
 			location.href = data.selected;
 		}

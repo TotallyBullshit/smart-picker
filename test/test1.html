@@ -1,57 +1,69 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Testing pickers</title>
+    <meta charset="UTF-8">
+    <title>Testing pickers</title>
 
-	<!-- Just a basic CSS for the test page -->
-	<link rel="stylesheet" type="text/css" href="../dist/styles/smart-picker.css">
+    <!-- Just a basic CSS for the test page -->
+    <link rel="stylesheet" type="text/css" href="../dist/styles/smart-picker.css">
 
-	<!-- Just a basic CSS for the test page -->
-	<link rel="stylesheet" type="text/css" href="test.css">
+    <!-- Just a basic CSS for the test page -->
+    <link rel="stylesheet" type="text/css" href="test.css">
 
-	<!-- Personalized CSS for the picker-->
-	<link rel="stylesheet" type="text/css" href="smart-picker.css">
+    <!-- Personalized CSS for the picker-->
+    <link rel="stylesheet" type="text/css" href="smart-picker.css">
 
-	<script type="text/javascript" src="../vendor/jquery.min.js"></script>
-	<script type="text/javascript" src="../vendor/underscore.min.js"></script>
-	<script type="text/javascript" src="../dist/smart-picker.js"></script>
+    <script type="text/javascript" src="../vendor/jquery.min.js"></script>
+    <script type="text/javascript" src="../vendor/underscore.min.js"></script>
+    <script type="text/javascript" src="../dist/smart-picker.js"></script>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
+
 <body>
 
-	<h1>Test #1 - Simple smartPicker</h1>
+    <h1>Test #1 - Simple smartPicker</h1>
 
-	<p>This is supposed to just open a modal window with a simple picker</p>
-	<p>Click on the button below to see in action and click outside to close the picker</p>
-	<p><button class="button" id="button">Open Picker</button></p>
+    <p>This is supposed to just open a modal window with a simple picker</p>
+    <p>Click on the button below to see in action and click outside to close the picker</p>
+    <p>
+        <button class="button" id="button">Open Picker</button>
+    </p>
 
-	<hr/>
-	<h3>Usage:</h3>
-	<pre>
+    <hr/>
+    <h3>Usage:</h3>
+    <pre>
 var my_picker = new smartPicker("regular", "my-picker", {});
 $("#button").click(function() {
 	my_picker.show();
 });</pre>
-	<h2>Format:</h2>
-	<p>smartPicker needs a type (string), an id for the new element (string), and a few extra options (object), as follows:</p>
-	<pre>new smartPicker([type], [id], [options]);</pre>
+    <h2>Format:</h2>
+    <p>smartPicker needs a type (string), an id for the new element (string), and a few extra options (object), as follows:</p>
+    <pre>new smartPicker([type], [id], [options]);</pre>
 
-	<hr/>
-	<p><a id="menu_test">Menu</a></p>
-	
-	<script>
+    <hr/>
+    <p><a id="menu_test">Menu</a>
+    </p>
 
-		$("#button").click(function() {
-			var my_picker = new smartPicker("regular", "my-picker", {});
-			my_picker.show();
-		});
+    <script>
+    $("#button").click(function() {
+        var my_picker = new smartPicker("regular", "my-picker", {
+            contentData: {
+                text: "Example Picker",
+                options: [{ value: "0", name: "Choose", selected: true },
+                		  { value: "1", name: "One" },
+                		  { value: "2", name: "Two" },
+                		  { value: "3", name: "Three" }]
+            }
+        });
+        my_picker.show();
+    });
+    </script>
 
-	</script>
 
-
-	<script type="text/javascript" src="menu.js"></script>
+    <script type="text/javascript" src="menu.js"></script>
 
 </body>
+
 </html>
