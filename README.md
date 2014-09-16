@@ -2,6 +2,8 @@
 
 > Smart Picker is a general library for pickers, used *primarily* in [Vizabi](https://github.com/Gapminder/vizabi) and other Gapminder projects
 
+####Examples: [View Examples](http://static.gapminder.org/smart-picker/examples/index.html)
+
 ## Getting started
 You can simply grab a copy of the necessary files in the folder ```dist```. You need to include jQuery, Underscore, the smartPicker's javascript file and the CSS file to your ```<head>``` tag to get it up and running properly:
 
