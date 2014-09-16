@@ -1,7 +1,7 @@
 //simple code for test page
 
 var menu_data = {
-	text: "Choose one of the following tests",
+	text: "Choose one of the following examples:",
 	options: [{
 		value: "index.html",
 		name: "Index"
@@ -20,7 +20,7 @@ var curr_page = window.location.href;
 for (var i = 0, size = tests.length; i < size; i++) {
 	var num = i + 1,
 		title = num + ". " + tests[i],
-		file = "test" + num + ".html";
+		file = "example" + num + ".html";
 
 	var new_option = {
 		value: file,
@@ -33,7 +33,7 @@ for (var i = 0, size = tests.length; i < size; i++) {
 }
 
 $("#menu, #menu_test").click(function() {
-	var picker = new smartPicker("regularList", "menuPicker", {
+	var picker = new smartPicker("list", "menuPicker", {
 		contentData: menu_data,
 		closeButton: true,
 		transition: 'fade',
