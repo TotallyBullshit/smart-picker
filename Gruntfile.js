@@ -26,7 +26,7 @@ module.exports = function (grunt) {
         compass: {
             options: {
                 sassDir: src_folder+'styles',
-                cssDir:  src_folder+'styles',
+                cssDir:  dist_folder+'styles',
                 generatedImagesDir:  src_folder+'images/generated',
                 imagesDir:  src_folder+'images',
                 javascriptsDir:  src_folder+'scripts',
@@ -72,7 +72,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'dist/styles/smart-picker.min.css': [
-                        src_folder+'styles/smart-picker.css'
+                        dist_folder+'styles/smart-picker.css'
                     ]
                 },
             }
@@ -97,11 +97,8 @@ module.exports = function (grunt) {
             },
             sass: {
                 files: {
-                    'dist/styles/smart-picker.scss': [
-                        dist_folder+'styles/smart-picker.css'
-                    ],
-                    'dist/styles/smart-picker.min.scss': [
-                        dist_folder+'styles/smart-picker.min.css'
+                    'dist/styles/_smart-picker.scss': [
+                        'dist/styles/smart-picker.css'
                     ]
                 }
             },
@@ -139,7 +136,7 @@ module.exports = function (grunt) {
         'build'
     ]);
 
-    grunt.registerTask('live', [
+    grunt.registerTask('dev', [
         'build',
         'watch'
     ]);
