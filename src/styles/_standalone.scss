@@ -1,6 +1,5 @@
 .picker-picker {
 
-	//@import 'compass/reset';
 	@import 'bootstrap/bootstrap_custom';
 
 	h1,h2,h3,h4,h5,h6 {
@@ -13,34 +12,34 @@
 	padding: $pickerPadding;
 	background: $colorWhite;
 	@include border-radius($pickerRadius);
-	@include single-box-shadow($colorBlackTransparent, 0px, 0px, 20px, 0px);
+	@include box-shadow(0px 0px 20px 0px $colorBlackTransparent);
 	@include box-sizing(border-box);
 
 	//slide transition
 	
 	&.slide, &.slideDown {
 		@include translate3d(0px, -1500px, 0px);
-		@include single-transition(transform, 0.3s, ease);
+		@include transition(transform, 0.3s, ease);
 	}
 
 	&.slideUp {
 		@include translate3d(0px, 3000px, 0px);
-		@include single-transition(transform, 0.3s, ease);
+		@include transition(transform, 0.3s, ease);
 	}
 
 	&.slideLeft {
 		@include translate3d(-2000px, 0px, 0px);
-		@include single-transition(transform, 0.3s, ease);
+		@include transition(transform, 0.3s, ease);
 	}
 
 	&.slideRight {
 		@include translate3d(2000px, 0px, 0px);
-		@include single-transition(transform, 0.3s, ease);
+		@include transition(transform, 0.3s, ease);
 	}
 
 	&.fade {
 		@include opacity(0);
-		@include single-transition(opacity, 0.3s, ease);
+		@include transition(opacity, 0.3s, ease);
 	}
     &.visible {
     	@include translate3d(0px, 0px, 0px);

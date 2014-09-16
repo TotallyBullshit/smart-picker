@@ -39,7 +39,7 @@ $selectMultColor: rgb(91, 138, 175);
     .select-mult-popup {
         @include border-radius($selectMultRadius);
         @include absolute(0px, 0px, auto, 0px);
-        @include single-box-shadow($colorBlackTransparent, 0px, 0px, 15px, 0px);
+        @include box-shadow(0px 0px 15px 0px $colorBlackTransparent);
         display: none;
         border: 1px solid #eee;
         padding: 2px;
