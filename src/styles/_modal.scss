@@ -8,7 +8,7 @@
 		//display: none;
 	    background: $colorBlack;
 	    @include opacity(0);
-	    @include transition(opacity, 0.3s, ease);
+	    @include single-transition(opacity, 0.3s, ease);
 	}
 
 	//what happens when it's visible
@@ -27,7 +27,7 @@
 
 	&.no-transition {
 		& > .picker-overlay {
-			@include transition(all, 0s, ease);
+			@include single-transition(all, 0s, ease);
 		}
 	}
 

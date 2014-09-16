@@ -23,23 +23,29 @@ module.exports = function (grunt) {
             src: [dist_folder]
           }
         },
-
-        // Compile SCSS files into CSS (dev mode is not compressed)
-        sass: {
-            minified: {
+        compass: {
+            options: {
+                sassDir: src_folder+'styles',
+                cssDir:  src_folder+'styles',
+                generatedImagesDir:  src_folder+'images/generated',
+                imagesDir:  src_folder+'images',
+                javascriptsDir:  src_folder+'scripts',
+                fontsDir:  src_folder+'styles/fonts',
+                importPath:  'lib',
+                httpImagesPath: '/images',
+                httpGeneratedImagesPath: '/images/generated',
+                httpFontsPath: '/styles/fonts',
+                relativeAssets: false,
+                assetCacheBuster: false
+            },
+            dist: {
                 options: {
-                    style: 'compressed'
-                },
-                files: {
-                    'dist/styles/smart-picker.min.css': 'src/styles/smart-picker.scss',
+                    generatedImagesDir:  dist_folder+'images/generated'
                 }
             },
-            expanded: {
+            server: {
                 options: {
-                    style: 'expanded'
-                },
-                files: {
-                    'dist/styles/smart-picker.css': 'src/styles/smart-picker.scss',
+                    debugInfo: true
                 }
             }
         },
@@ -62,6 +68,15 @@ module.exports = function (grunt) {
                 ]
             }
         },
+        cssmin: {
+            dist: {
+                files: {
+                    'dist/styles/smart-picker.min.css': [
+                        src_folder+'styles/smart-picker.css'
+                    ]
+                },
+            }
+        },
         // Put files not handled in other tasks here
         copy: {
             dist: {
@@ -82,8 +97,11 @@ module.exports = function (grunt) {
             },
             sass: {
                 files: {
-                    'dist/styles/_smart-picker.scss': [
+                    'dist/styles/smart-picker.scss': [
                         dist_folder+'styles/smart-picker.css'
+                    ],
+                    'dist/styles/smart-picker.min.scss': [
+                        dist_folder+'styles/smart-picker.min.css'
                     ]
                 }
             },
@@ -108,20 +126,20 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean',
-        'sass:expanded',
-        'sass:minified',
+        'compass',
         'copy:dist',
         'copy:picker',
-        'copy:sass',
         'imagemin',
-        'uglify'
+        'uglify',
+        'cssmin',
+        'copy:sass'
     ]);
 
     grunt.registerTask('default', [
         'build'
     ]);
 
-    grunt.registerTask('dev', [
+    grunt.registerTask('live', [
         'build',
         'watch'
     ]);
